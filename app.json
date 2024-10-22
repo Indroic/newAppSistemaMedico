@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "Medic Kit P",
+    "slug": "newAppSistemaMedico",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "com.indroic.MedicKitP",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.indroic.newAppSistemaMedico"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-document-picker",
+      "expo-file-system",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "La Aplicación Necesita Acceso a tus Fotos para Poder Usar esta Función"
+        }
+      ],
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4c1e924f-8e4c-4f4e-85b0-48d69ea98240"
+      }
+    }
+  }
+}
