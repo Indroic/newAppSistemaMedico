@@ -11,12 +11,14 @@ import {
 import { Examen } from "@/types";
 import XButton from "./XButton";
 import * as FileSystem from "expo-file-system";
+import * as Linking from 'expo-linking';
 import { shareAsync } from "expo-sharing";
 import * as Constants from "expo-constants";
 
 import EditExamModal from "./EditExamModal";
 import { deleteExamen } from "@/axios";
 import { useAuthStore, useExamenesStore } from "@/stores";
+import * as mime from "mime"
 
 export default (props: {
   exam: Examen;
@@ -31,22 +33,26 @@ export default (props: {
 
 
   async function saveFile(uri: string, filename: string, mimetype: string) {
-    if (Constants.default.platform?.android || Constants.default.platform?.ios) {
-      const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+    try {
+      if (Constants.default.platform?.android || Constants.default.platform?.ios) {
+        const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+    
+        if (permissions.granted) {
+          const base64 = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
+
+          const fileUri = await FileSystem.StorageAccessFramework.createFileAsync(permissions.directoryUri, filename, mimetype)
   
-      if (permissions.granted) {
-        const base64 = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
-  
-        await FileSystem.StorageAccessFramework.createFileAsync(permissions.directoryUri, filename, mimetype)
-          .then(async (uri) => {
-            await FileSystem.writeAsStringAsync(uri, base64, { encoding: FileSystem.EncodingType.Base64 });
-          })
-          .catch(e => console.log(e));
+          await FileSystem.writeAsStringAsync(fileUri, base64, { encoding: FileSystem.EncodingType.Base64 });
+
+          alert("Archivo descargado Correctamente!!")
+        } else {
+          shareAsync(uri);
+        }
       } else {
         shareAsync(uri);
       }
-    } else {
-      shareAsync(uri);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -149,10 +155,9 @@ export default (props: {
                   setDownloadProgress(100);
                   downloadResumable.downloadAsync().then((file) => {
                     setDownloadProgress(100);
-                    setTimeout(() => {
-                      setDownloaded(false);
-                      saveFile(file?.uri as string, fileName, file?.mimeType as string);
-                    }, 2000);
+                    saveFile(file?.uri as string, fileName, mime.default.getType(file?.uri as string) as string).then(() => {
+                      alert("Archivo descargado Correctamente!!");
+                    });
                   });
                 }}
               >
