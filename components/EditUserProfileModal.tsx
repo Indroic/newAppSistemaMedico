@@ -189,6 +189,7 @@ export default (props: Props) => {
                       : undefined
                   }
                   value={formik.values.first_name}
+                  disabled={formik.isSubmitting}
 
                 />
                 <Input
@@ -209,6 +210,7 @@ export default (props: Props) => {
                       : undefined
                   }
                   value={formik.values.last_name}
+                  disabled={formik.isSubmitting}
                 />
               </XStack>
               <YStack width={"100%"}>
@@ -229,6 +231,7 @@ export default (props: Props) => {
                       : undefined
                   }
                   value={formik.values.ci.toString()}
+                  disabled={formik.isSubmitting}
                 />
                 <Input
                   label="Correo Electrónico"
@@ -247,9 +250,10 @@ export default (props: Props) => {
                       : undefined
                   }
                   value={formik.values.email}
+                  disabled={formik.isSubmitting}
                 />
               </YStack>
-              <CustomButton text="Guardar" onPress={() => formik.handleSubmit()} />
+              <CustomButton text="Guardar" disabled={formik.isSubmitting} onPress={() => formik.handleSubmit()} />
             </YStack>
           </Sheet.ScrollView>
         </Sheet.Frame>

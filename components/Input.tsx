@@ -152,6 +152,8 @@ export default (props: InputProps) => {
                   }
                   disabled={props.disabled}
                   disabledStyle={{ opacity: 0.5 }}
+                  size={"$2"}
+                  zIndex={1000}
                 />
               ) : (
                 <EyeOff
@@ -164,6 +166,8 @@ export default (props: InputProps) => {
                   }
                   disabled={props.disabled}
                   disabledStyle={{ opacity: 0.5 }}
+                  zIndex={1000}
+                  size={"$2"}
                 />
               )
             }

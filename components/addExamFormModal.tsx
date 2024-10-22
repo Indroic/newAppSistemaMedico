@@ -7,7 +7,6 @@ import { Upload } from "@tamagui/lucide-icons";
 import CustomButton from "./CustomButton";
 import { useAuthStore, useExamenesStore } from "@/stores";
 import { useFormik } from "formik";
-import { useAuth } from "@/app/context/AuthContext";
 import * as DocumentPicker from "expo-document-picker";
 import * as yup from "yup";
 import * as FileSystem from "expo-file-system";
@@ -43,7 +42,7 @@ export default () => {
 
     if (!result.canceled) {
       let filename = result.assets[0].name;
-      if ((result.assets[0].size ?? 0 / (1024 * 1024) > 1.8) === true) {
+      if (result.assets[0].size !== undefined && (result.assets[0].size / (1024 * 1024) > 1.8) === true) {
         formik.setErrors({
           archivo: "El archivo es demasiado grande",
         });
@@ -67,7 +66,7 @@ export default () => {
       categoria: null,
       archivo: selectFileName,
       descripcion: "",
-      agregado_por: user?.id ?? "",
+      agregado_por: user.id,
     },
     onSubmit: (values) => {
       const addExamenRequest = async () => {
@@ -79,7 +78,7 @@ export default () => {
               descripcion: values.descripcion,
               agregado_por: values.agregado_por,
             },
-            token ?? ""
+            token
           );
 
           result = JSON.parse(
@@ -107,10 +106,13 @@ export default () => {
           setOpen(!open);
           addExamenStore(result);
         } catch (error: any) {
+          console.log(error);
           let errors = error.response.data;
           Object.keys(errors).forEach((key) => {
             formik.setFieldError(key, errors[key]);
           });
+
+          formik.setSubmitting(false);
         }
       };
 

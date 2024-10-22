@@ -68,7 +68,7 @@ export default function MedicosScreen() {
     validationSchema: validationSchema,
   });
 
-  React.useEffect(() => {
+  React.useMemo(() => {
     const downloadAvatarPlaceholder = async () => {
       let cacheDir = FileSystem.cacheDirectory;
       let AvatarPlaceholder = await FileSystem.downloadAsync(
