@@ -22,6 +22,7 @@ interface Medico {
   foto: string;
   institucion: string;
   agregado_por: string;
+  create_at: string;
 }
 
 interface Examen {
