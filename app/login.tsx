@@ -68,7 +68,7 @@ export default function MedicosScreen() {
             }}
             errorMessage={formik.errors.username}
             value={formik.values.username}
-            isValid={
+            isValid={formik.touched.username && 
               formik.errors.username !== undefined
                 ? formik.errors.username
                   ? false
@@ -89,7 +89,7 @@ export default function MedicosScreen() {
             errorMessage={formik.errors.password}
             value={formik.values.password}
             isValid={
-              formik.errors.password !== undefined
+              formik.touched.password && formik.errors.password !== undefined
                 ? formik.errors.password
                   ? false
                   : true

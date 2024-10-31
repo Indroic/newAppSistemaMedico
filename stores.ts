@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Medico, Especialidad, Categoria, User, Examen } from "./types";
+import type { Medico, Especialidad, Categoria, User, Examen, GeneroType } from "./types";
 
 interface useMedicosStoreType{
     medicos: Medico[];
@@ -11,6 +11,11 @@ interface useMedicosStoreType{
     removeMedico: (id: string) => void;
     updateMedico: (medico: Medico) => void;
     setMedicos: (medicos: Medico[]) => void;
+}
+
+interface useGeneroStoreType{
+    generos: GeneroType[];
+    setGeneros: (generos: GeneroType[]) => void;
 }
 
 interface useExamenesStoreType{
@@ -71,4 +76,9 @@ export const useExamenesStore = create<useExamenesStoreType>((set) => ({
 export const useMicelaneusStore = create<useMicelaneusStoreType>((set) =>({
     avatarPlaceholder: "",
     setAvatarPlaceholder: (locate) => set(() => ({avatarPlaceholder: locate}))
+}))
+
+export const useGeneroStore = create<useGeneroStoreType>((set) => ({
+    generos: [],
+    setGeneros: (generos) => set({ generos }),
 }))

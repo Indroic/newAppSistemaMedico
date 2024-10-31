@@ -2,7 +2,7 @@ interface User {
   id?: string;
   password: string;
   username: string;
-  ci: number;
+  ci: string;
   first_name: string;
   last_name: string;
   email: string;
@@ -11,6 +11,8 @@ interface User {
   avatar?: string | any;
   groups?: Array<string>;
   user_permissions?: Array<string>;
+  genero?: string;
+  telefono?: string;
 }
 
 interface Medico {
@@ -39,6 +41,14 @@ interface Examen {
 interface Especialidad {
   id: string;
   especialidad: string;
+  genero?: GeneroType;
+  create_at: string;
+  update_at: string;
+}
+
+interface GeneroType {
+  id: string;
+  genero: string;
   create_at: string;
   update_at: string;
 }
@@ -105,5 +115,6 @@ export {
   Examen,
   TabBarButtonProps,
   RegisterResult,
-  ErrorType
+  ErrorType,
+  GeneroType
 };

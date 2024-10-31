@@ -196,18 +196,16 @@ export default (props: InputProps) => {
           )
         ) : null}
       </InputContainer>
-      {props.errorMessage ? (
-        !props.isValid ? (
-          <Label
-            isValid={props.isValid}
-            disabled={props.disabled}
-            disabledStyle={{ opacity: 0.5 }}
-            lineHeight={"$2"}
-          >
-            {props.errorMessage}
-          </Label>
-        ) : null
-      ) : null}
+      {props.errorMessage && (
+        props.isValid && props.isValid !== true ? null : <Label
+        isValid={props.isValid}
+        disabled={props.disabled}
+        disabledStyle={{ opacity: 0.5 }}
+        lineHeight={"$2"}
+      >
+        {props.errorMessage}
+      </Label>
+      )}
     </YStack>
   );
 };

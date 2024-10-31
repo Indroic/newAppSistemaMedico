@@ -63,6 +63,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         last_name: data.last_name,
         email: data.email,
         ci: data.ci,
+        genero: data.genero,
+        telefono: data.telefono,
       };
 
       const user: User = await registerRequest(newData);

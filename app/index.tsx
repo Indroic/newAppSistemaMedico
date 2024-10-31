@@ -6,7 +6,7 @@ import { Link, router } from "expo-router";
 import { useFonts } from "expo-font";
 
 import * as FileSystem from "expo-file-system";
-import { useExamenesStore, useMedicosStore, useMicelaneusStore } from "@/stores";
+import { useExamenesStore, useGeneroStore, useMedicosStore, useMicelaneusStore } from "@/stores";
 
 import * as Network from "expo-network";
 import * as SplashScreen from "expo-splash-screen";
@@ -15,7 +15,7 @@ import CustomButton from "@/components/CustomButton";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useAuth } from "./context/AuthContext";
-import { getCategorias, getEspecialidades } from "@/axios";
+import { getCategorias, getEspecialidades, getGeneros } from "@/axios";
 
 SplashScreen.preventAutoHideAsync();
 export default function MedicosScreen() {
@@ -27,6 +27,7 @@ export default function MedicosScreen() {
 
   const {setCategorias} = useExamenesStore();
   const {setEspecialidades} = useMedicosStore();
+  const {setGeneros} = useGeneroStore();
 
   const [fontsLoaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
@@ -70,13 +71,8 @@ export default function MedicosScreen() {
 
   React.useMemo(() => {
     const downloadAvatarPlaceholder = async () => {
-      let cacheDir = FileSystem.cacheDirectory;
-      let AvatarPlaceholder = await FileSystem.downloadAsync(
-        "https://rnkqnkvcketqhptlupct.supabase.co/storage/v1/object/public/storage-medics/avatars/avatar-placeholder.png",
-        cacheDir + "avatar-placeholder.png"
-      );
 
-      setAvatarPlaceholder(AvatarPlaceholder.uri);
+      setAvatarPlaceholder("https://rnkqnkvcketqhptlupct.supabase.co/storage/v1/object/public/storage-medics/avatars/avatar-placeholder.png",);
 
       return true;
     }
@@ -96,11 +92,18 @@ export default function MedicosScreen() {
       
     }
 
+    const fetchGeneros = async () => {
+      let generosResponse = await getGeneros();
+      if (generosResponse) {
+        setGeneros(generosResponse);
+      }
+    }
 
     async function prepare() {
       try {
         await fetchEspecialidades();
         await fetchCategorias();
+        await fetchGeneros();
         
         let network = await Network.getNetworkStateAsync();
         let cacheAvatarPlaceholder = await FileSystem.getInfoAsync(
@@ -142,7 +145,12 @@ export default function MedicosScreen() {
   return (
     <Container gap={20}>
       <H1>Inicie Sesión</H1>
-      <Form onSubmit={() => formik.handleSubmit()} width={"100%"} paddingHorizontal={"$4"} gap={30}>
+      <Form
+        onSubmit={() => formik.handleSubmit()}
+        width={"100%"}
+        paddingHorizontal={"$4"}
+        gap={30}
+      >
         <YStack gap={10}>
           <Input
             label="Usuario"
@@ -152,7 +160,7 @@ export default function MedicosScreen() {
             }}
             errorMessage={formik.errors.username}
             value={formik.values.username}
-            isValid={
+            isValid={formik.touched.username && 
               formik.errors.username !== undefined
                 ? formik.errors.username
                   ? false
@@ -173,7 +181,7 @@ export default function MedicosScreen() {
             errorMessage={formik.errors.password}
             value={formik.values.password}
             isValid={
-              formik.errors.password !== undefined
+              formik.touched.password && formik.errors.password !== undefined
                 ? formik.errors.password
                   ? false
                   : true
@@ -185,7 +193,11 @@ export default function MedicosScreen() {
           />
         </YStack>
         <Form.Trigger>
-          <CustomButton disabled={formik.isSubmitting} onPress={() => formik.handleSubmit()} text="Iniciar Sesion" />
+          <CustomButton
+            disabled={formik.isSubmitting}
+            onPress={() => formik.handleSubmit()}
+            text="Iniciar Sesion"
+          />
         </Form.Trigger>
         <YStack
           width={"100%"}

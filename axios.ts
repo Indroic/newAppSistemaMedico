@@ -10,6 +10,12 @@ const getEspecialidades = async () => {
   return data;
 };
 
+const getGeneros = async () => {
+  const { data } = await axiosInstance.get("api/generos/");
+
+  return data;
+}
+
 const getCategorias = async () => {
   const { data } = await axiosInstance.get("api/categorias/");
 
@@ -214,4 +220,5 @@ export {
   deleteExamen,
   deleteMedico,
   updateUser,
+  getGeneros
 };
