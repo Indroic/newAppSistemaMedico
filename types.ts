@@ -11,7 +11,7 @@ interface User {
   avatar?: string | any;
   groups?: Array<string>;
   user_permissions?: Array<string>;
-  genero?: string;
+  genero?: GeneroType;
   telefono?: string;
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, ScrollView, XStack } from "tamagui";
+import { Button, Image, ScrollView, Text, XStack, YStack } from "tamagui";
 import { Container } from "@/components/layouts";
 
 import MedicDataListItem from "@/components/MedicDataListItem";
@@ -10,6 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Spinner } from "tamagui";
 import Input from "@/components/Input";
 import { Search } from "@tamagui/lucide-icons";
+import { setItem } from "expo-secure-store";
 
 export default function Medicos() {
   const { medicos } = useMedicosStore();
@@ -25,6 +26,14 @@ export default function Medicos() {
 
 
   const searchItemsF = () => {
+    setLoading(true);
+
+    if (search === "") {
+      setItems(medicos.map((medico) => renderItem({ item: medico })));
+      setLoading(false);
+      return
+    }
+
     const result = items.filter((item) => {
       const nombre = item.props.medic.nombre.toLowerCase();
       const especialidad =
@@ -40,8 +49,8 @@ export default function Medicos() {
       );
     });
 
-    setSearchItems(result);
-    setLoading(false);
+    setItems(result);
+    setTimeout(() => setLoading(false), 3000);
     return 
   };
 
@@ -51,8 +60,14 @@ export default function Medicos() {
       setItems(newItems);
     };
 
-    loadItems().finally(() => setLoading(false));
+    loadItems().finally(() => setTimeout(() => setLoading(false), 3000));
   }, [medicos]);
+
+  React.useEffect(() => {
+    if (search === "") {
+      setItems(medicos.map((medico) => renderItem({ item: medico })));
+    }
+  }, [search]);
 
   return (
     <Container
@@ -60,18 +75,34 @@ export default function Medicos() {
       paddingTop={"$4"}
       paddingHorizontal={"$4"}
     >
-      <XStack justifyContent="space-between" maxWidth={"100%"}>
-      <Input
-        placeholder="Buscar..."
-        value={search}  
-        flex={1}
-        onChangeText={(text) => setSearch(text)}
-      />
-      <Button icon={<Search />} onPress={() => {setLoading(true); searchItemsF()}}/>
-      </XStack>
-      <ScrollView width={"100%"} height={"100%"}>
-        {loading ? <Spinner /> : searchItems && searchItems.length > 0 ? searchItems : items}
-      </ScrollView>
+
+      
+      {loading ? 
+        <Image source={require("../../assets/images/search.gif")} /> 
+          : 
+        
+        <>      
+          <XStack justifyContent="space-between" maxWidth={"100%"}>
+            <Input
+              placeholder="Buscar..."
+              value={search}  
+              flex={1}
+              onChangeText={(text) => setSearch(text)}
+            />
+            <Button icon={<Search />} onPress={() => {searchItemsF();}}/>
+          </XStack>
+          <ScrollView height={"100%"} width={"100%"}>
+            {items.length > 0 ? 
+              items.map((item) => item) 
+                : 
+              <YStack alignItems="center" justifyContent="center" height={"100%"} width={"100%"}>
+                <Image scale={0.5} width={"$24"} height={"$24"} borderColor={"$borderColor"} borderWidth={1} source={require("../../assets/images/not_found.png")} /> 
+              </YStack>
+            }
+          </ScrollView>
+        </>
+      }
+      
 
       <AddMedicFormModal />
     </Container>

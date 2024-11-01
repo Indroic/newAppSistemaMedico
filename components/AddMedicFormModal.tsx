@@ -18,13 +18,26 @@ export default () => {
   const [imagen, setImagen] = React.useState<string>(avatarPlaceholder);
   const [open, setOpen] = React.useState(false);
   const { especialidades, addMedico: addMedicoStore } = useMedicosStore();
-  const { token } = useAuthStore();
-
+  const { token, user } = useAuthStore();
 
   const selectList = React.useMemo(() => {
-    return especialidades.map((especialidad) => {
-      return { value: especialidad.id, text: especialidad.especialidad };
-    });
+    let filtrado = especialidades.filter((especialidad) => {
+      if (!especialidad.genero) {
+        return especialidad;
+      }
+  
+      if (especialidad.genero && especialidad.genero?.id === user.genero) {
+        return especialidad;
+      }
+
+      return
+    })
+
+    return filtrado.map((especialidad) => ({
+      text: especialidad.especialidad,
+      value: especialidad.id.toString(),
+    }))
+    
   }, [especialidades]);
 
   const cacheAvatar = async (uri: string) => {

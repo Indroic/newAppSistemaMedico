@@ -1,5 +1,5 @@
 import React from "react";
-import { H1, Text, Button, Form, YStack, H4 } from "tamagui";
+import { H1, Text, Button, Form, YStack, H4, Image } from "tamagui";
 import { Container } from "@/components/layouts";
 import Input from "@/components/Input";
 import { Link, router } from "expo-router";
@@ -144,6 +144,7 @@ export default function MedicosScreen() {
 
   return (
     <Container gap={20}>
+      <Image width={"$10"} height={"$10"} source={require("../assets/images/icon.png")}></Image>
       <H1>Inicie Sesión</H1>
       <Form
         onSubmit={() => formik.handleSubmit()}
@@ -158,7 +159,7 @@ export default function MedicosScreen() {
             onChangeText={(value) => {
               formik.setFieldValue("username", value);
             }}
-            errorMessage={formik.errors.username}
+            errorMessage={ formik.touched.username ? formik.errors.username : undefined}
             value={formik.values.username}
             isValid={formik.touched.username && 
               formik.errors.username !== undefined
@@ -178,7 +179,7 @@ export default function MedicosScreen() {
             onChangeText={(value) => {
               formik.setFieldValue("password", value);
             }}
-            errorMessage={formik.errors.password}
+            errorMessage={formik.touched.password ? formik.errors.password : undefined}
             value={formik.values.password}
             isValid={
               formik.touched.password && formik.errors.password !== undefined
