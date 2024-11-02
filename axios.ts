@@ -32,6 +32,52 @@ const getMedicos = async (token: string) => {
   return data;
 };
 
+const addConsulta = async (data: any, token: string) => {
+  const { data: response } = await axios
+    .create({
+      baseURL: "https://backend-medics.vercel.app/",
+      headers: {
+        Authorization: `Token ${token}`
+      },
+    })
+    .post("api/consultas/", data);
+
+  return response;
+}
+
+const addTension = async (data: any, token: string) => {
+  const { data: response } = await axios
+    .create({
+      baseURL: "https://backend-medics.vercel.app/",
+      headers: {
+        Authorization: `Token ${token}`
+      },
+    })
+    .post("api/tensiones/", data);
+
+  return response;
+}
+
+const getConsultas = async (token: string) => {
+  const { data } = await axiosInstance.get("api/consultas/", {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  });
+
+  return data;
+}
+
+const getTensiones = async (token: string) => {
+  const { data } = await axiosInstance.get("api/tensiones/", {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  });
+
+  return data;
+}
+
 const getExamenes = async (token: string) => {
   const { data } = await axiosInstance.get("api/examenes/", {
     headers: {
@@ -220,5 +266,9 @@ export {
   deleteExamen,
   deleteMedico,
   updateUser,
-  getGeneros
+  getGeneros,
+  getTensiones,
+  getConsultas,
+  addConsulta,
+  addTension
 };

@@ -11,34 +11,22 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { useFormik } from "formik";
 import { Medico } from "@/types";
-import { addMedico } from "@/axios";
+import { addConsulta, addMedico } from "@/axios";
 
 export default () => {
   const { avatarPlaceholder } = useMicelaneusStore();
   const [imagen, setImagen] = React.useState<string>(avatarPlaceholder);
   const [open, setOpen] = React.useState(false);
-  const { especialidades, addMedico: addMedicoStore } = useMedicosStore();
+  const { addMedico: addMedicoStore, medicos } = useMedicosStore();
   const { token, user } = useAuthStore();
 
   const selectList = React.useMemo(() => {
-    let filtrado = especialidades.filter((especialidad) => {
-      if (!especialidad.genero) {
-        return especialidad;
-      }
-  
-      if (especialidad.genero && especialidad.genero?.id === user.genero) {
-        return especialidad;
-      }
-
-      return
-    })
-
-    return filtrado.map((especialidad) => ({
-      text: especialidad.especialidad,
-      value: especialidad.id.toString(),
+    return medicos.map((medico) => ({
+      text: medico.nombre,
+      value: medico.id.toString(),
     }))
     
-  }, [especialidades]);
+  }, [medicos]);
 
   const cacheAvatar = async (uri: string) => {
     const cacheDirectory = FileSystem.cacheDirectory;
@@ -46,19 +34,6 @@ export default () => {
     const filePath = `${cacheDirectory}${fileName}`;
     await FileSystem.copyAsync({ from: uri, to: filePath });
     return filePath;
-  };
-
-  const selectAavatar = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      quality: 1,
-      aspect: [3, 4],
-    });
-
-    if (!result.canceled) {
-      const filePath = await cacheAvatar(result.assets[0].uri);
-      setImagen(filePath);
-    }
   };
 
   const validator = yup.object().shape({
@@ -97,26 +72,7 @@ export default () => {
     onSubmit: (values) => {
       const addmedicoRequest = async () => {
         try {
-          let result: Medico = await addMedico(values, token);
-          if (imagen !== avatarPlaceholder) {
-            result = JSON.parse(
-              (
-                await FileSystem.uploadAsync(
-                  `https://backend-medics.vercel.app/api/medicos/${result.id}/`,
-                  imagen,
-                  {
-                    fieldName: "foto",
-                    httpMethod: "PATCH",
-                    uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-                    headers: {
-                      "Content-Type": "multipart/form-data",
-                      Authorization: `Token ${token}`,
-                    },
-                  }
-                )
-              ).body
-            );
-          }
+          let result: Medico = await addConsulta(values, token);
 
           addMedicoStore(result);
           formik.resetForm();
@@ -153,13 +109,15 @@ export default () => {
               value={formik.values.nombre}
               onChangeText={(text) => formik.setFieldValue("nombre", text)}
               isValid={
-                formik.touched.nombre
-                  ? formik.errors.nombre === undefined
-                    ? undefined
-                    : false
+                formik.errors.nombre !== undefined
+                  ? formik.errors.nombre
+                    ? false
+                    : true
+                  : formik.values.nombre
+                  ? true
                   : undefined
               }
-              errorMessage={formik.touched.nombre ? formik.errors.nombre : undefined}
+              errorMessage={formik.errors.nombre}
               disabled={formik.isSubmitting}
             />
             <Input
@@ -170,13 +128,15 @@ export default () => {
               value={formik.values.apellido}
               onChangeText={(text) => formik.setFieldValue("apellido", text)}
               isValid={
-                formik.touched.apellido
-                  ? formik.errors.apellido === undefined
-                    ? undefined
-                    : false
+                formik.errors.apellido !== undefined
+                  ? formik.errors.apellido
+                    ? false
+                    : true
+                  : formik.values.apellido
+                  ? true
                   : undefined
               }
-              errorMessage={formik.touched.apellido ? formik.errors.apellido : undefined}
+              errorMessage={formik.errors.apellido}
               disabled={formik.isSubmitting}
             />
           </ContainerX>
@@ -189,12 +149,14 @@ export default () => {
               onValueChange={(value) =>
                 formik.setFieldValue("especialidad", parseInt(value))
               }
-              errorMessage={formik.touched.especialidad ? formik.errors.especialidad : undefined}
+              errorMessage={formik.errors.especialidad}
               isValid={
-                formik.touched.especialidad
-                  ? formik.errors.especialidad === undefined
-                    ? undefined
-                    : false
+                formik.errors.especialidad !== undefined
+                  ? formik.errors.especialidad
+                    ? false
+                    : true
+                  : formik.values.especialidad
+                  ? true
                   : undefined
               }
               disabled={formik.isSubmitting}
@@ -208,13 +170,15 @@ export default () => {
               value={formik.values.telefono}
               onChangeText={(text) => formik.setFieldValue("telefono", text)}
               isValid={
-                formik.touched.telefono
-                  ? formik.errors.telefono === undefined
-                    ? undefined
-                    : false
+                formik.errors.telefono !== undefined
+                  ? formik.errors.telefono
+                    ? false
+                    : true
+                  : formik.values.telefono
+                  ? true
                   : undefined
               }
-              errorMessage={formik.touched.telefono ? formik.errors.telefono : undefined}
+              errorMessage={formik.errors.telefono}
               disabled={formik.isSubmitting}
             />
             <Input
@@ -225,13 +189,15 @@ export default () => {
               value={formik.values.institucion}
               onChangeText={(text) => formik.setFieldValue("institucion", text)}
               isValid={
-                formik.touched.institucion
-                  ? formik.errors.institucion === undefined
-                    ? undefined
-                    : false
+                formik.errors.institucion !== undefined
+                  ? formik.errors.institucion
+                    ? false
+                    : true
+                  : formik.values.institucion
+                  ? true
                   : undefined
               }
-              errorMessage={formik.touched.institucion ? formik.errors.institucion : undefined}
+              errorMessage={formik.errors.institucion}
               disabled={formik.isSubmitting}
             />
           </YStack>

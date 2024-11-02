@@ -132,14 +132,12 @@ export default () => {
             flex={2}
             value={formik.values.titulo}
             onChangeText={(text) => formik.setFieldValue("titulo", text)}
-            errorMessage={formik.errors.titulo}
+            errorMessage={formik.touched.titulo ? formik.errors.titulo : undefined}
             isValid={
-              formik.errors.titulo !== undefined
-                ? formik.errors.titulo
-                  ? false
-                  : true
-                : formik.values.titulo
-                ? true
+              formik.touched.titulo
+                ? formik.errors.titulo === undefined
+                  ? undefined
+                  : false
                 : undefined
             }
             disabled={formik.isSubmitting}
@@ -152,14 +150,12 @@ export default () => {
             onValueChange={(value) =>
               formik.setFieldValue("categoria", parseInt(value))
             }
-            errorMessage={formik.errors.categoria}
+            errorMessage={formik.touched.categoria ? formik.errors.categoria : undefined}
             isValid={
-              formik.errors.categoria !== undefined
-                ? formik.errors.categoria
-                  ? false
-                  : true
-                : formik.values.categoria
-                ? true
+              formik.touched.categoria
+                ? formik.errors.categoria === undefined
+                  ? undefined
+                  : false
                 : undefined
             }
             disabled={formik.isSubmitting}
@@ -173,12 +169,10 @@ export default () => {
             value={formik.values.descripcion}
             onChangeText={(text) => formik.setFieldValue("descripcion", text)}
             isValid={
-              formik.errors.descripcion !== undefined
-                ? formik.errors.descripcion
-                  ? false
-                  : true
-                : formik.values.descripcion
-                ? true
+              formik.touched.descripcion
+                ? formik.errors.descripcion === undefined
+                  ? undefined
+                  : false
                 : undefined
             }
             errorMessage={formik.errors.descripcion}
@@ -191,12 +185,10 @@ export default () => {
             padding="$10"
             backgroundColor={"$color2"}
             borderColor={
-              formik.errors.archivo !== undefined
-                ? formik.errors.archivo
-                  ? "red"
-                  : "green"
-                : formik.values.archivo
-                ? "green"
+              formik.touched.archivo
+                ? formik.errors.archivo === undefined
+                  ? "$borderColor"
+                  : "red"
                 : "$borderColor"
             }
             borderWidth={2}
@@ -210,29 +202,25 @@ export default () => {
             <Upload
               size={"$5"}
               color={
-                formik.errors.archivo !== undefined
-                  ? formik.errors.archivo
-                    ? "red"
-                    : "green"
-                  : formik.values.archivo
-                  ? "green"
-                  : "$color10"
+              formik.touched.archivo
+                ? formik.errors.archivo === undefined
+                  ? "$borderColor"
+                  : "red"
+                : "$borderColor"
               }
             />
             <Text
               color={
-                formik.errors.archivo !== undefined
-                  ? formik.errors.archivo
-                    ? "red"
-                    : "green"
-                  : formik.values.archivo
-                  ? "green"
-                  : "$color10"
+                formik.touched.archivo
+                ? formik.errors.archivo === undefined
+                  ? "$borderColor"
+                  : "red"
+                : "$borderColor"
               }
             >
               Subir Archivo
             </Text>
-            {formik.errors.archivo && (
+            {formik.touched.archivo && formik.errors.archivo && (
               <Text color="red">{formik.errors.archivo}</Text>
             )}
             {formik.values.archivo && (

@@ -11,7 +11,7 @@ interface User {
   avatar?: string | any;
   groups?: Array<string>;
   user_permissions?: Array<string>;
-  genero?: GeneroType;
+  genero?: GeneroType | string;
   telefono?: string;
 }
 
@@ -104,6 +104,25 @@ interface TabBarButtonProps {
   }) => React.ReactNode | undefined;
 }
 
+interface Tension{
+  id: string;
+  usuario: string;
+  sistolic: string;
+  diastolic: string;
+  create_at: string;
+  update_at: string;
+}
+
+interface Consulta {
+  id: string;
+  medico : Medico;
+  usuario: User;
+  diagnostico: string;
+  tratamiento: string;
+  create_at: string;
+  update_at: string;
+}
+
 export {
   Medico,
   Especialidad,
@@ -116,5 +135,7 @@ export {
   TabBarButtonProps,
   RegisterResult,
   ErrorType,
-  GeneroType
+  GeneroType,
+  Tension,
+  Consulta
 };

@@ -6,7 +6,12 @@ import { Link, router } from "expo-router";
 import { useFonts } from "expo-font";
 
 import * as FileSystem from "expo-file-system";
-import { useExamenesStore, useGeneroStore, useMedicosStore, useMicelaneusStore } from "@/stores";
+import {
+  useExamenesStore,
+  useGeneroStore,
+  useMedicosStore,
+  useMicelaneusStore,
+} from "@/stores";
 
 import * as Network from "expo-network";
 import * as SplashScreen from "expo-splash-screen";
@@ -25,9 +30,9 @@ export default function MedicosScreen() {
 
   const { onLogin } = useAuth();
 
-  const {setCategorias} = useExamenesStore();
-  const {setEspecialidades} = useMedicosStore();
-  const {setGeneros} = useGeneroStore();
+  const { setCategorias } = useExamenesStore();
+  const { setEspecialidades } = useMedicosStore();
+  const { setGeneros } = useGeneroStore();
 
   const [fontsLoaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
@@ -71,40 +76,40 @@ export default function MedicosScreen() {
 
   React.useMemo(() => {
     const downloadAvatarPlaceholder = async () => {
-
-      setAvatarPlaceholder("https://rnkqnkvcketqhptlupct.supabase.co/storage/v1/object/public/storage-medics/avatars/avatar-placeholder.png",);
+      setAvatarPlaceholder(
+        "https://rnkqnkvcketqhptlupct.supabase.co/storage/v1/object/public/storage-medics/avatars/avatar-placeholder.png"
+      );
 
       return true;
-    }
-    
+    };
+
     const fetchEspecialidades = async () => {
       let especialidadesResponse = await getEspecialidades();
       if (especialidadesResponse) {
         setEspecialidades(especialidadesResponse);
       }
-    }
+    };
 
-    const fetchCategorias = async () =>{
-      let categoriasResponse  = await getCategorias();
+    const fetchCategorias = async () => {
+      let categoriasResponse = await getCategorias();
       if (categoriasResponse) {
         setCategorias(categoriasResponse);
       }
-      
-    }
+    };
 
     const fetchGeneros = async () => {
       let generosResponse = await getGeneros();
       if (generosResponse) {
         setGeneros(generosResponse);
       }
-    }
+    };
 
     async function prepare() {
       try {
         await fetchEspecialidades();
         await fetchCategorias();
         await fetchGeneros();
-        
+
         let network = await Network.getNetworkStateAsync();
         let cacheAvatarPlaceholder = await FileSystem.getInfoAsync(
           FileSystem.cacheDirectory + "avatar-placeholder.png"
@@ -144,7 +149,11 @@ export default function MedicosScreen() {
 
   return (
     <Container gap={20}>
-      <Image width={"$10"} height={"$10"} source={require("../assets/images/icon.png")}></Image>
+      <Image
+        width={"$10"}
+        height={"$10"}
+        source={require("../assets/images/icon.png")}
+      ></Image>
       <H1>Inicie Sesión</H1>
       <Form
         onSubmit={() => formik.handleSubmit()}
@@ -159,15 +168,15 @@ export default function MedicosScreen() {
             onChangeText={(value) => {
               formik.setFieldValue("username", value);
             }}
-            errorMessage={ formik.touched.username ? formik.errors.username : undefined}
+            errorMessage={
+              formik.touched.username ? formik.errors.username : undefined
+            }
             value={formik.values.username}
-            isValid={formik.touched.username && 
-              formik.errors.username !== undefined
-                ? formik.errors.username
-                  ? false
-                  : true
-                : formik.values.username
-                ? true
+            isValid={
+              formik.touched.username
+                ? formik.errors.username === undefined
+                  ? undefined
+                  : false
                 : undefined
             }
             disabled={formik.isSubmitting}
@@ -179,15 +188,15 @@ export default function MedicosScreen() {
             onChangeText={(value) => {
               formik.setFieldValue("password", value);
             }}
-            errorMessage={formik.touched.password ? formik.errors.password : undefined}
+            errorMessage={
+              formik.touched.password ? formik.errors.password : undefined
+            }
             value={formik.values.password}
             isValid={
-              formik.touched.password && formik.errors.password !== undefined
-                ? formik.errors.password
-                  ? false
-                  : true
-                : formik.values.password
-                ? true
+              formik.touched.password
+                ? formik.errors.password === undefined
+                  ? undefined
+                  : false
                 : undefined
             }
             disabled={formik.isSubmitting}

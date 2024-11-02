@@ -1,42 +1,37 @@
 import React from "react";
-import { Button, Image, ScrollView, Spinner, XStack, YStack } from "tamagui";
+import { Button, Image, ScrollView, XStack, YStack } from "tamagui";
 import { Container } from "@/components/layouts";
 
-import { Examen } from "@/types";
-import { useExamenesStore } from "@/stores";
+import { Tension } from "@/types";
+import { useMedicosStore } from "@/stores";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import ExamDataListItem from "@/components/ExamDataListItem";
-import AddExamFormModal from "@/components/addExamFormModal";
 import Input from "@/components/Input";
 import { Search } from "@tamagui/lucide-icons";
+import TensionDataListItem from "@/components/TensionDataListItem";
+import AddTensionFormModal from "@/components/AddTensionFormModal";
 
-export default function Examenes() {
-  const { examenes } = useExamenesStore();
+export default function Tensiones() {
+  const { tensiones } = useMedicosStore();
   const [loading, setLoading] = React.useState(true);
   const [items, setItems] = React.useState<JSX.Element[]>([]);
   const [search, setSearch] = React.useState("");
   const insets = useSafeAreaInsets();
 
-  const renderItem = ({ item }: { item: Examen }) => {
-    return <ExamDataListItem exam={item} key={item.id} />;
+  const renderItem = ({ item }: { item: Tension }) => {
+    return <TensionDataListItem tension={item} key={item.id} />;
   };
 
   const searchItemsF = () => {
     setLoading(true);
 
     if (search === "") {
-      setItems(examenes.map((examen) => renderItem({ item: examen })));
+      setItems(tensiones.map((tension) => renderItem({ item: tension })));
       setLoading(false);
       return;
     }
     const result = items.filter((item) => {
-      console.log(item);
-      const titulo = item.props.exam.titulo.toLowerCase();
-      const categoria = item.props.exam.categoria.categoria.toLowerCase();
-      const fecha = item.props.exam.create_at.split("T")[0].toLowerCase(); // suponiendo que la fecha es un string en formato YYYY-MM-DD
+      const fecha = item.props.tension.create_at.split("T")[0].toLowerCase();  //suponiendo que la fecha es un string en formato YYYY-MM-DD
       return (
-        titulo.includes(search.toLowerCase()) ||
-        categoria.includes(search.toLowerCase()) ||
         fecha.includes(search.toLowerCase())
       );
     });
@@ -48,16 +43,16 @@ export default function Examenes() {
 
   React.useEffect(() => {
     const loadItems = async () => {
-      const newItems = examenes.map((medico) => renderItem({ item: medico }));
+      const newItems = tensiones.map((tension) => renderItem({ item: tension }));
       setItems(newItems);
     };
 
     loadItems().then(() => setLoading(false));
-  }, [examenes]);
+  }, [tensiones]);
 
   React.useEffect(() => {
     if (search === "") {
-      setItems(examenes.map((examen) => renderItem({ item: examen })));
+      setItems(tensiones.map((tension) => renderItem({ item: tension })));
     }
   }, [search]);
 
@@ -73,7 +68,7 @@ export default function Examenes() {
         <>
           <XStack justifyContent="space-between" maxWidth={"100%"}>
             <Input
-              placeholder="Buscar..."
+              placeholder="Buscar(solo por fecha)..."
               value={search}
               flex={1}
               onChangeText={(text) => setSearch(text)}
@@ -104,12 +99,13 @@ export default function Examenes() {
                   source={require("../../assets/images/not_found.png")}
                 />
               </YStack>
-            )}
+            )
+            }
           </ScrollView>
         </>
       )}
 
-      <AddExamFormModal />
+      <AddTensionFormModal />
     </Container>
   );
 }

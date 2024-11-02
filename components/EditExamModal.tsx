@@ -1,18 +1,16 @@
-import { X, Phone, Mail, IdCard, Pencil, Upload } from "@tamagui/lucide-icons";
+import { Pencil, Upload } from "@tamagui/lucide-icons";
 import React from "react";
 import {
-  Avatar,
   Button,
   Form,
   H3,
-  H5,
   Sheet,
   Text,
   XStack,
   YStack,
 } from "tamagui";
 import Input from "./Input";
-import { Examen, Medico, User } from "@/types";
+import { Examen } from "@/types";
 import { useAuthStore, useExamenesStore } from "@/stores";
 import SelectC from "./SelectC";
 import XButton from "./XButton";
@@ -20,9 +18,8 @@ import * as yup from "yup";
 import * as FileSystem from "expo-file-system";
 import * as DocumentPicker from "expo-document-picker";
 import { useFormik } from "formik";
-import { updateExamen, updateMedico } from "@/axios";
+import { updateExamen} from "@/axios";
 import CustomButton from "./CustomButton";
-import { useAuth } from "@/app/context/AuthContext";
 import TextArea from "./TextArea";
 
 export default (props: { exam: Examen }) => {

@@ -1,10 +1,9 @@
 import React from "react";
 import { XStack } from "tamagui";
-import { Examen} from "@/types";
-import DetailsExamModal from "./DetailsExamModal";
-import ExamInfo from "./ExamInfo";
+import { Tension } from "@/types";
+import TensionInfo from "./TensionInfo";
 
-export default (props: { exam: Examen }) => {
+export default (props: { tension: Tension }) => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -22,12 +21,7 @@ export default (props: { exam: Examen }) => {
       borderRadius={"$5"}
       marginVertical={"$2"}
     >
-      <ExamInfo exam={props.exam}/>
-      <DetailsExamModal
-        exam={props.exam}
-        open={open}
-        onOpenChange={setOpen}
-      />
+      <TensionInfo tension={props.tension} />
     </XStack>
   );
 };

@@ -67,15 +67,15 @@ export default function MedicosScreen() {
             onChangeText={(value) => {
               formik.setFieldValue("username", value);
             }}
-            errorMessage={ formik.touched.username ? formik.errors.username : undefined}
+            errorMessage={
+              formik.touched.username ? formik.errors.username : undefined
+            }
             value={formik.values.username}
-            isValid={formik.touched.username && 
-              formik.errors.username !== undefined
-                ? formik.errors.username
-                  ? false
-                  : true
-                : formik.values.username
-                ? true
+            isValid={
+              formik.touched.username
+                ? formik.errors.username === undefined
+                  ? undefined
+                  : false
                 : undefined
             }
             disabled={formik.isSubmitting}
@@ -87,15 +87,15 @@ export default function MedicosScreen() {
             onChangeText={(value) => {
               formik.setFieldValue("password", value);
             }}
-            errorMessage={formik.touched.password ? formik.errors.password : undefined}
+            errorMessage={
+              formik.touched.password ? formik.errors.password : undefined
+            }
             value={formik.values.password}
             isValid={
-              formik.touched.password && formik.errors.password !== undefined
-                ? formik.errors.password
-                  ? false
-                  : true
-                : formik.values.password
-                ? true
+              formik.touched.password
+                ? formik.errors.password === undefined
+                  ? undefined
+                  : false
                 : undefined
             }
             disabled={formik.isSubmitting}

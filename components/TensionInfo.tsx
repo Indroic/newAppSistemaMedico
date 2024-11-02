@@ -1,24 +1,24 @@
-import { Examen, Medico } from "@/types";
-import { File } from "@tamagui/lucide-icons";
+import { Tension } from "@/types";
+import { ActivitySquare } from "@tamagui/lucide-icons";
 import React from "react";
 import { Text, XStack, YStack } from "tamagui";
 
-export default (props: { exam: Examen}) => {
+export default (props: { tension: Tension}) => {
   return (
     <XStack alignItems="center" justifyContent="space-between" flex={1}>
       <XStack alignItems="center" gap={"$3"}>
-        <File />
+        <ActivitySquare />
         <YStack>
-          <Text fontWeight={"bold"} fontSize={"$4"}>
-            {props.exam.titulo}
+          <Text fontWeight={"normal"} fontSize={"$3"}>
+            Diatósica: {props.tension.diastolic}
           </Text>
           <Text fontWeight={"normal"} fontSize={"$3"}>
-            {props.exam.categoria.categoria}
+            Sistólica: {props.tension.sistolic}
           </Text>
         </YStack>
       </XStack>
       <Text fontWeight={"normal"} fontSize={"$3"}>
-            {props.exam.create_at.split("T")[0]}
+            {props.tension.create_at.split("T")[0]}
       </Text>
     </XStack>
   );

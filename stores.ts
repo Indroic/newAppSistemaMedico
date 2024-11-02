@@ -1,9 +1,11 @@
 import { create } from "zustand";
-import type { Medico, Especialidad, Categoria, User, Examen, GeneroType } from "./types";
+import type { Medico, Especialidad, Categoria, User, Examen, GeneroType, Consulta, Tension } from "./types";
 
 interface useMedicosStoreType{
     medicos: Medico[];
     especialidades: Especialidad[];
+    consultas: Consulta[];
+    tensiones: Tension[];
     loading: boolean;
     setLoading: (loading: boolean) => void;
     setEspecialidades: (especialidades: Especialidad[]) => void;
@@ -11,6 +13,11 @@ interface useMedicosStoreType{
     removeMedico: (id: string) => void;
     updateMedico: (medico: Medico) => void;
     setMedicos: (medicos: Medico[]) => void;
+    addConsulta: (consulta: Consulta) => void;
+    removeConsulta: (id: string) => void;
+    addTension: (tension: Tension) => void;
+    removeTension: (id: string) => void;
+    setTensiones: (tensiones: Tension[]) => void;
 }
 
 interface useGeneroStoreType{
@@ -53,12 +60,19 @@ export const useMedicosStore = create<useMedicosStoreType>((set) => ({
     medicos: [],
     especialidades: [],
     loading: true,
+    consultas: [],
+    tensiones: [],
     setLoading: (loading) => set({ loading }),
     setEspecialidades: (especialidades) => set({ especialidades }),
     addMedico: (medico) => set((state) => ({ medicos: [...state.medicos, medico] })),
     removeMedico: (id) => set((state) => ({ medicos: state.medicos.filter((medico) => medico.id !== id) })),
     updateMedico: (medico) => set((state) => ({ medicos: state.medicos.map((m) => (m.id === medico.id ? medico : m)) })),
     setMedicos: (medicos) => set({ medicos }),
+    addConsulta: (consulta) => set((state) => ({ consultas: [...state.consultas, consulta] })),
+    removeConsulta: (id) => set((state) => ({ consultas: state.consultas.filter((consulta) => consulta.id !== id) })),
+    addTension: (tension) => set((state) => ({ tensiones: [...state.tensiones, tension] })),
+    removeTension: (id) => set((state) => ({ tensiones: state.tensiones.filter((tension) => tension.id !== id) })),
+    setTensiones: (tensiones) => set({ tensiones }),
 }))
 
 export const useExamenesStore = create<useExamenesStoreType>((set) => ({
