@@ -2,19 +2,19 @@ import React from "react";
 import { Text, H1, Form, YStack, H4, Button, XStack } from "tamagui";
 import { Avatar } from "@tamagui/avatar";
 import { Link, router } from "expo-router";
-import { Container } from "@/components/layouts";
-import Input from "@/components/Input";
+import { Container } from "@/components/bases/layouts";
+import Input from "@/components/bases/Input";
 import { ScrollView } from "tamagui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useGeneroStore, useMicelaneusStore } from "@/stores";
-import CustomButton from "@/components/CustomButton";
+import CustomButton from "@/components/bases/CustomButton";
 import * as yup from "yup";
 import { useAuth } from "./context/AuthContext";
 import { useFormik } from "formik";
 
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import SelectC from "@/components/SelectC";
+import SelectC from "@/components/bases/SelectC";
 
 export default function MedicosScreen() {
   const insets = useSafeAreaInsets();

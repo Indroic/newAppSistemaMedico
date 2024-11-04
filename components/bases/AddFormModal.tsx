@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Sheet, Button } from "tamagui";
 import { X, Plus } from "@tamagui/lucide-icons";
-import { Container } from "@/components/layouts";
+import { Container } from "@/components/bases/layouts";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import XButton from "./XButton";
 
@@ -10,6 +10,7 @@ interface Props {
   children: ReactElement | ReactElement[];
   open: boolean;
   setOpen: (open: boolean) => void;
+  snapPoints: number[];
 }
 
 export default function FormModal(props: Props) {
@@ -19,7 +20,7 @@ export default function FormModal(props: Props) {
   return (
     <Container
       position="absolute"
-      bottom={insets.bottom + 90}
+      bottom={insets.bottom + 100}
       right={insets.right + 20}
       backgroundColor={"$backgroundTransparent"}
     >
@@ -35,7 +36,7 @@ export default function FormModal(props: Props) {
         open={props.open !== undefined ? props.open : open}
         modal
         dismissOnSnapToBottom
-        snapPoints={[70, 70]}
+        snapPoints={props.snapPoints}
         position={2}
         onOpenChange={props.setOpen !== undefined ? props.setOpen : setOpen}
         animation={"fast"}

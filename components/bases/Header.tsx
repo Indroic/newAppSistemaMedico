@@ -3,11 +3,11 @@ import { BottomTabHeaderProps } from "@react-navigation/bottom-tabs";
 import { XStack, H6, Image } from "tamagui";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import UserProfile from "./UserProfile";
+import UserProfile from "../UserProfile";
 import { User } from "@/types";
 
 interface Props extends BottomTabHeaderProps {
-  user?: User;
+  user: User;
 }
 
 export default (props: Props) => {
@@ -28,7 +28,7 @@ export default (props: Props) => {
         <Image
           width={"$4"}
           height={"$4"}
-          source={require("../assets/images/icon.png")}
+          source={require("@/assets/images/icon.png")}
         />
         <H6>Medic Kit P</H6>
       </XStack>

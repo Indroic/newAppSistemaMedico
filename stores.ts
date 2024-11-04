@@ -18,6 +18,10 @@ interface useMedicosStoreType{
     addTension: (tension: Tension) => void;
     removeTension: (id: string) => void;
     setTensiones: (tensiones: Tension[]) => void;
+    setConsultas: (consultas: Consulta[]) => void;
+    addConsultas: (consultas: Consulta[]) => void;
+    removeConsultas: (id: string) => void;
+
 }
 
 interface useGeneroStoreType{
@@ -73,6 +77,9 @@ export const useMedicosStore = create<useMedicosStoreType>((set) => ({
     addTension: (tension) => set((state) => ({ tensiones: [...state.tensiones, tension] })),
     removeTension: (id) => set((state) => ({ tensiones: state.tensiones.filter((tension) => tension.id !== id) })),
     setTensiones: (tensiones) => set({ tensiones }),
+    setConsultas: (consultas) => set({ consultas }),
+    addConsultas: (consultas) => set((state) => ({ consultas: [...state.consultas, ...consultas] })),
+    removeConsultas: (id) => set((state) => ({ consultas: state.consultas.filter((consulta) => consulta.id !== id) })),
 }))
 
 export const useExamenesStore = create<useExamenesStoreType>((set) => ({

@@ -1,8 +1,8 @@
 import React from "react";
-import FormModal from "./AddFormModal";
+import FormModal from "../bases/AddFormModal";
 import { Form, H3, YStack } from "tamagui";
-import Input from "./Input";
-import CustomButton from "./CustomButton";
+import Input from "../bases/Input";
+import CustomButton from "../bases/CustomButton";
 import { useAuthStore, useMedicosStore } from "@/stores";
 import { useFormik } from "formik";
 
@@ -57,7 +57,7 @@ export default () => {
   });
 
   return (
-    <FormModal open={open} setOpen={setOpen}>
+    <FormModal open={open} setOpen={setOpen} snapPoints={[40, 40]}>
       <H3>Agregar Nuevo Registro de Tensión</H3>
       <Form paddingHorizontal="$4">
         <YStack gap={"$3"}>

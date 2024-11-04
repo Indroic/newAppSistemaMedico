@@ -8,8 +8,6 @@ import MedicInfo from "./MedicInfo";
 export default (props: { medic: Medico }) => {
   const [open, setOpen] = React.useState(false);
 
-  const { avatarPlaceholder } = useMicelaneusStore();
-
   return (
     <XStack
       onPress={() => setOpen(!open)}
@@ -25,7 +23,7 @@ export default (props: { medic: Medico }) => {
       borderRadius={"$5"}
       marginVertical={"$2"}
     >
-      <MedicInfo medic={props.medic} avatarPlaceholder={avatarPlaceholder} />
+      <MedicInfo medic={props.medic} avatarPlaceholder={"https://rnkqnkvcketqhptlupct.supabase.co/storage/v1/object/public/storage-medics/avatars/avatar-placeholder.png"} />
       <DetailsMedicModal
         medic={props.medic}
         open={open}

@@ -1,44 +1,51 @@
 import React from "react";
-import { Button, Image, ScrollView, Spinner, Stack, XStack, YStack } from "tamagui";
+import { Button, Image, ScrollView, Stack, XStack, YStack } from "tamagui";
 import { Container } from "@/components/bases/layouts";
 
-import { Examen } from "@/types";
-import { useExamenesStore } from "@/stores";
+import MedicDataListItem from "@/components/infoComponents/medicos/MedicDataListItem";
+import { Consulta, Medico } from "@/types";
+import AddMedicFormModal from "@/components/addForms/AddMedicFormModal";
+import { useMedicosStore } from "@/stores";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import ExamDataListItem from "@/components/infoComponents/examenes/ExamDataListItem";
-import AddExamFormModal from "@/components/addForms/addExamFormModal";
 import Input from "@/components/bases/Input";
 import { Search } from "@tamagui/lucide-icons";
+import AddConsultaFormModal from "@/components/addForms/AddConsultaFormModal";
+import ConsultaDataListItem from "@/components/infoComponents/consultas/ConsultaDataListItem";
 import { SearchInput } from "@/components/bases/SearchInput";
 import { FlashList } from "@shopify/flash-list";
 
-export default function Examenes() {
-  const { examenes } = useExamenesStore();
+export default function Medicos() {
+  const { consultas } = useMedicosStore();
   const [loading, setLoading] = React.useState(true);
-  const [items, setItems] = React.useState<Examen[]>([]);
+  const [items, setItems] = React.useState<Consulta[]>([]);
   const [search, setSearch] = React.useState("");
   const insets = useSafeAreaInsets();
 
-  const renderItem = ({ item }: { item: Examen }) => {
-    return <ExamDataListItem exam={item} key={item.id} />;
+  const renderItem = ({ item }: { item: Consulta }) => {
+    return <ConsultaDataListItem consulta={item} key={item.id} />;
   };
 
   const searchItemsF = () => {
     setLoading(true);
 
     if (search === "") {
-      setItems(examenes);
       setLoading(false);
       return;
     }
+
     const result = items.filter((item) => {
-      const titulo = item.titulo.toLowerCase();
-      const categoria = item.categoria.categoria.toLowerCase();
+      const medico_nombre = item.medico.nombre.toLowerCase();
+      const medico_apellido = item.medico.apellido.toLowerCase();
+      const especialidad = item.medico.especialidad.especialidad.toLowerCase();
       const fecha = item.create_at.split("T")[0].toLowerCase(); // suponiendo que la fecha es un string en formato YYYY-MM-DD
+
+      const searchLower = search.toLowerCase();
+
       return (
-        titulo.includes(search.toLowerCase()) ||
-        categoria.includes(search.toLowerCase()) ||
-        fecha.includes(search.toLowerCase())
+        medico_nombre.includes(searchLower) ||
+        medico_apellido.includes(searchLower) ||
+        especialidad.includes(searchLower) ||
+        fecha.includes(searchLower)
       );
     });
 
@@ -49,27 +56,27 @@ export default function Examenes() {
 
   React.useEffect(() => {
     const loadItems = async () => {
-      setItems(examenes);
+      setItems(consultas);
     };
 
     loadItems().finally(() => setTimeout(() => setLoading(false), 3000));
-  }, [examenes]);
+  }, [consultas]);
 
   React.useMemo(() => {
     if (search === "") {
-      setItems(examenes);
+      setItems(consultas);
     }
   }, [search]);
 
   if (loading) {
-    <Image source={require("../../assets/images/search.gif")} />
+    <Image source={require("../../assets/images/search.gif")} />;
   }
 
   return (
     <Container
       paddingBottom={insets.bottom + 90}
       paddingTop={"$4"}
-      paddingHorizontal="$4"
+      paddingHorizontal={"$4"}
     >
       <Stack flex={1} width={"100%"} height={"100%"}>
         <FlashList
@@ -90,7 +97,7 @@ export default function Examenes() {
         />
       </Stack>
 
-      <AddExamFormModal />
+      <AddConsultaFormModal />
     </Container>
   );
 }

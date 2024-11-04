@@ -4,7 +4,7 @@ import { Avatar, Button, H3, H5, Sheet, Text, XStack, YStack } from "tamagui";
 import EditUserProfileModal from "./EditUserProfileModal";
 import { User } from "@/types";
 import { useMicelaneusStore } from "@/stores";
-import XButton from "./XButton";
+import XButton from "./bases/XButton";
 import { useAuth } from "@/app/context/AuthContext";
 import { router } from "expo-router";
 
@@ -57,7 +57,7 @@ export default (props: { user: User }) => {
               <Button
                 backgroundColor={"$colorTransparent"}
                 position="absolute"
-                top={0}
+                bottom={0}
                 left={0}
                 onPress={() => {
                   setOpen(!open);

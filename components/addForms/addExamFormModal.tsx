@@ -1,10 +1,10 @@
 import React from "react";
-import FormModal from "./AddFormModal";
+import FormModal from "../bases/AddFormModal";
 import { Form, H3, Text, YStack } from "tamagui";
-import Input from "./Input";
-import SelectC from "./SelectC";
+import Input from "../bases/Input";
+import SelectC from "../bases/SelectC";
 import { Upload } from "@tamagui/lucide-icons";
-import CustomButton from "./CustomButton";
+import CustomButton from "../bases/CustomButton";
 import { useAuthStore, useExamenesStore } from "@/stores";
 import { useFormik } from "formik";
 import * as DocumentPicker from "expo-document-picker";
@@ -12,7 +12,7 @@ import * as yup from "yup";
 import * as FileSystem from "expo-file-system";
 import { addExamen } from "@/axios";
 import { Examen } from "@/types";
-import TextArea from "./TextArea";
+import TextArea from "../bases/TextArea";
 
 export default () => {
   const { token, user } = useAuthStore();
@@ -122,7 +122,7 @@ export default () => {
   });
 
   return (
-    <FormModal open={open} setOpen={setOpen}>
+    <FormModal open={open} setOpen={setOpen} snapPoints={[70,70]}>
       <H3>Agregar Nuevo Examen</H3>
       <Form paddingHorizontal="$4">
         <YStack gap={"$3"}>

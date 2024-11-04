@@ -1,21 +1,26 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import { ActivitySquare, BriefcaseMedical, Files } from "@tamagui/lucide-icons";
-import TabBar from "@/components/TabBar";
+import {
+  ActivitySquare,
+  BriefcaseMedical,
+  FileDiff,
+  Files,
+} from "@tamagui/lucide-icons";
+import TabBar from "@/components/bases/TabBar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Header from "@/components/Header";
+import Header from "@/components/bases/Header";
 import { useAuth } from "../context/AuthContext";
-import { getExamenes, getMedicos, getTensiones } from "@/axios";
+import { getConsultas, getExamenes, getMedicos, getTensiones } from "@/axios";
 import { useAuthStore, useExamenesStore, useMedicosStore } from "@/stores";
 import { Spinner, Text, YStack } from "tamagui";
-import { Examen, Medico, Tension } from "@/types";
+import { Consulta, Examen, Medico, Tension } from "@/types";
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
   const [loading, setLoading] = React.useState(true);
   const { authState } = useAuth();
   const { user } = useAuthStore();
-  const { setMedicos, setTensiones } = useMedicosStore();
+  const { setMedicos, setTensiones, setConsultas } = useMedicosStore();
   const { setExamenes } = useExamenesStore();
 
   React.useEffect(() => {
@@ -43,11 +48,21 @@ export default function TabLayout() {
           authState.token ?? ""
         );
         if (tensionesResponse) {
-
           setTensiones(tensionesResponse);
         }
       };
 
+      const fetchConsultas = async () => {
+        let consultasResponse: { consultas: Consulta[] } = await getConsultas(
+          authState.token ?? ""
+        );
+
+        if (consultasResponse) {
+          setConsultas(consultasResponse.consultas);
+        }
+      };
+
+      fetchConsultas();
       fetchTensiones();
       fetchMedicos();
       fetchExamenes();
@@ -109,6 +124,15 @@ export default function TabLayout() {
           title: "Tensiones",
           tabBarIcon: ({ color, size }) => (
             <ActivitySquare color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="consultas"
+        options={{
+          title: "Consultas",
+          tabBarIcon: ({ color, size }) => (
+            <FileDiff color={color} size={size} />
           ),
         }}
       />

@@ -1,10 +1,10 @@
 import React from "react";
-import FormModal from "./AddFormModal";
+import FormModal from "../bases/AddFormModal";
 import { Avatar, Form, H3, YStack } from "tamagui";
-import { ContainerX } from "./layouts";
-import Input from "./Input";
-import SelectC from "./SelectC";
-import CustomButton from "./CustomButton";
+import { ContainerX } from "../bases/layouts";
+import Input from "../bases/Input";
+import SelectC from "../bases/SelectC";
+import CustomButton from "../bases/CustomButton";
 import { useAuthStore, useMedicosStore, useMicelaneusStore } from "@/stores";
 import * as yup from "yup";
 import * as ImagePicker from "expo-image-picker";
@@ -137,7 +137,7 @@ export default () => {
   });
 
   return (
-    <FormModal open={open} setOpen={setOpen}>
+    <FormModal open={open} setOpen={setOpen} snapPoints={[70, 70]}>
       <H3>Agregar Nuevo Médico</H3>
       <Form gap={"$3"} paddingHorizontal="$3">
         <YStack gap={"$3"} alignItems="center">

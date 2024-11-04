@@ -1,7 +1,7 @@
 import React from "react";
 import { H1, Text, Button, Form, YStack, H4, Image } from "tamagui";
-import { Container } from "@/components/layouts";
-import Input from "@/components/Input";
+import { Container } from "@/components/bases/layouts";
+import Input from "@/components/bases/Input";
 import { Link, router } from "expo-router";
 import { useFonts } from "expo-font";
 
@@ -15,7 +15,7 @@ import {
 
 import * as Network from "expo-network";
 import * as SplashScreen from "expo-splash-screen";
-import CustomButton from "@/components/CustomButton";
+import CustomButton from "@/components/bases/CustomButton";
 
 import { useFormik } from "formik";
 import * as yup from "yup";

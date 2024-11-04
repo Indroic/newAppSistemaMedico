@@ -1,44 +1,38 @@
 import React from "react";
-import { Button, Image, ScrollView, Text, XStack, YStack } from "tamagui";
-import { Container } from "@/components/layouts";
-
-import MedicDataListItem from "@/components/MedicDataListItem";
+import { Image, ScrollView, Stack, YStack } from "tamagui";
+import { Container } from "@/components/bases/layouts";
+import { FlashList } from "@shopify/flash-list";
+import MedicDataListItem from "@/components/infoComponents/medicos/MedicDataListItem";
 import { Medico } from "@/types";
-import AddMedicFormModal from "@/components/AddMedicFormModal";
+import AddMedicFormModal from "@/components/addForms/AddMedicFormModal";
 import { useMedicosStore } from "@/stores";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Spinner } from "tamagui";
-import Input from "@/components/Input";
-import { Search } from "@tamagui/lucide-icons";
-import { setItem } from "expo-secure-store";
+import { SearchInput } from "@/components/bases/SearchInput";
 
 export default function Medicos() {
   const { medicos } = useMedicosStore();
   const [loading, setLoading] = React.useState(true);
-  const [items, setItems] = React.useState<JSX.Element[]>([]);
+  const [items, setItems] = React.useState<Medico[]>([]);
   const [search, setSearch] = React.useState("");
-  const [searchItems, setSearchItems] = React.useState<JSX.Element[]>([]);
   const insets = useSafeAreaInsets();
 
   const renderItem = ({ item }: { item: Medico }) => {
     return <MedicDataListItem medic={item} key={item.id} />;
   };
 
-
   const searchItemsF = () => {
     setLoading(true);
 
     if (search === "") {
-      setItems(medicos.map((medico) => renderItem({ item: medico })));
+      setItems(medicos);
       setLoading(false);
-      return
+      return;
     }
 
     const result = items.filter((item) => {
-      const nombre = item.props.medic.nombre.toLowerCase();
-      const especialidad =
-        item.props.medic.especialidad.especialidad.toLowerCase();
-      const fecha = item.props.medic.create_at.split("T")[0].toLowerCase(); // suponiendo que la fecha es un string en formato YYYY-MM-DD
+      const nombre = item.nombre.toLowerCase();
+      const especialidad = item.especialidad.especialidad.toLowerCase();
+      const fecha = item.create_at.split("T")[0].toLowerCase(); // suponiendo que la fecha es un string en formato YYYY-MM-DD
 
       const searchLower = search.toLowerCase();
 
@@ -51,23 +45,26 @@ export default function Medicos() {
 
     setItems(result);
     setTimeout(() => setLoading(false), 3000);
-    return 
+    return;
   };
 
   React.useEffect(() => {
     const loadItems = async () => {
-      const newItems = medicos.map((medico) => renderItem({ item: medico }));
-      setItems(newItems);
+      setItems(medicos);
     };
 
     loadItems().finally(() => setTimeout(() => setLoading(false), 3000));
   }, [medicos]);
 
-  React.useEffect(() => {
+  React.useMemo(() => {
     if (search === "") {
-      setItems(medicos.map((medico) => renderItem({ item: medico })));
+      setItems(medicos);
     }
   }, [search]);
+
+  if (loading) {
+    <Image source={require("../../assets/images/search.gif")} />;
+  }
 
   return (
     <Container
@@ -75,34 +72,24 @@ export default function Medicos() {
       paddingTop={"$4"}
       paddingHorizontal={"$4"}
     >
-
-      
-      {loading ? 
-        <Image source={require("../../assets/images/search.gif")} /> 
-          : 
-        
-        <>      
-          <XStack justifyContent="space-between" maxWidth={"100%"}>
-            <Input
-              placeholder="Buscar..."
-              value={search}  
-              flex={1}
-              onChangeText={(text) => setSearch(text)}
+      <Stack flex={1} width={"100%"} height={"100%"}>
+        <FlashList
+          data={items}
+          estimatedItemSize={100}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          onRefresh={() => searchItemsF()}
+          refreshing={loading}
+          ListHeaderComponent={
+            <SearchInput
+              search={search}
+              setSearch={setSearch}
+              searchItemsF={searchItemsF}
             />
-            <Button icon={<Search />} onPress={() => {searchItemsF();}}/>
-          </XStack>
-          <ScrollView height={"100%"} width={"100%"}>
-            {items.length > 0 ? 
-              items.map((item) => item) 
-                : 
-              <YStack alignItems="center" justifyContent="center" height={"100%"} width={"100%"}>
-                <Image scale={0.5} width={"$24"} height={"$24"} borderColor={"$borderColor"} borderWidth={1} source={require("../../assets/images/not_found.png")} /> 
-              </YStack>
-            }
-          </ScrollView>
-        </>
-      }
-      
+          }
+          ListEmptyComponent={<Image source={require("@/assets/images/not_found.png")} scale={0.5} />}
+        />
+      </Stack>
 
       <AddMedicFormModal />
     </Container>
