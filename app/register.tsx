@@ -1,6 +1,5 @@
 import React from "react";
-import { Text, H1, Form, YStack, H4, Button, XStack } from "tamagui";
-import { Avatar } from "@tamagui/avatar";
+import { Text, H1, Form, YStack, H4, XStack } from "tamagui";
 import { Link, router } from "expo-router";
 import { Container } from "@/components/bases/layouts";
 import Input from "@/components/bases/Input";
@@ -12,24 +11,13 @@ import * as yup from "yup";
 import { useAuth } from "./context/AuthContext";
 import { useFormik } from "formik";
 
-import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
 import SelectC from "@/components/bases/SelectC";
 
 export default function MedicosScreen() {
   const insets = useSafeAreaInsets();
   const { onRegister } = useAuth();
   const { avatarPlaceholder } = useMicelaneusStore();
-  const [avatar, setAvatar] = React.useState<string>(avatarPlaceholder);
   const { generos } = useGeneroStore();
-
-  const cacheAvatar = async (uri: string) => {
-    const cacheDirectory = FileSystem.cacheDirectory;
-    const fileName = uri.split("/").pop();
-    const filePath = `${cacheDirectory}${fileName}`;
-    await FileSystem.copyAsync({ from: uri, to: filePath });
-    return filePath;
-  };
 
   const selectList = React.useMemo(() => {
     return generos.map((item) => {
@@ -40,19 +28,7 @@ export default function MedicosScreen() {
     });
   }, [generos]);
 
-  const selectAavatar = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      quality: 1,
-      aspect: [3, 4],
-    });
 
-    if (!result.canceled) {
-      const filePath = await cacheAvatar(result.assets[0].uri);
-      setAvatar(filePath);
-      formik.setFieldValue("avatar", filePath);
-    }
-  };
 
   const validator = yup.object().shape({
     username: yup
@@ -115,7 +91,6 @@ export default function MedicosScreen() {
         const result = await onRegister({
           username: values.username,
           password: values.password,
-          avatar: avatar,
           first_name: values.first_name,
           last_name: values.last_name,
           email: values.email,
