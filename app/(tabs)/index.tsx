@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, ScrollView, Stack, YStack } from "tamagui";
+import { H2, Image, ScrollView, Stack, YStack } from "tamagui";
 import { Container } from "@/components/bases/layouts";
 import { FlashList } from "@shopify/flash-list";
 import MedicDataListItem from "@/components/infoComponents/medicos/MedicDataListItem";
@@ -8,6 +8,8 @@ import AddMedicFormModal from "@/components/addForms/AddMedicFormModal";
 import { useMedicosStore } from "@/stores";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SearchInput } from "@/components/bases/SearchInput";
+
+import * as ld from "lodash";
 
 export default function Medicos() {
   const { medicos } = useMedicosStore();
@@ -22,49 +24,41 @@ export default function Medicos() {
 
   const searchItemsF = () => {
     setLoading(true);
-
+  
     if (search === "") {
       setItems(medicos);
       setLoading(false);
       return;
     }
-
-    const result = items.filter((item) => {
-      const nombre = item.nombre.toLowerCase();
-      const especialidad = item.especialidad.especialidad.toLowerCase();
-      const fecha = item.create_at.split("T")[0].toLowerCase(); // suponiendo que la fecha es un string en formato YYYY-MM-DD
-
-      const searchLower = search.toLowerCase();
-
-      return (
-        nombre.includes(searchLower) ||
-        especialidad.includes(searchLower) ||
-        fecha.includes(searchLower)
-      );
-    });
-
+  
+    const result = ld.chain(items)
+      .filter((item) => {
+        const nombre = item.nombre.toLowerCase();
+        const especialidad = item.especialidad.especialidad.toLowerCase();
+        const fecha = item.create_at.split("T")[0].toLowerCase();
+  
+        const searchLower = search.toLowerCase();
+  
+        return (
+        ld.includes(nombre, searchLower) ||
+        ld.includes(especialidad, searchLower) ||
+        ld.includes(fecha, searchLower)
+        );
+      })
+      .value();
+  
     setItems(result);
-    setTimeout(() => setLoading(false), 3000);
+    setLoading(false);
     return;
   };
 
-  React.useEffect(() => {
+  React.useMemo(() => {
     const loadItems = async () => {
       setItems(medicos);
     };
 
-    loadItems().finally(() => setTimeout(() => setLoading(false), 3000));
+    loadItems().finally(() => setLoading(false));
   }, [medicos]);
-
-  React.useMemo(() => {
-    if (search === "") {
-      setItems(medicos);
-    }
-  }, [search]);
-
-  if (loading) {
-    <Image source={require("../../assets/images/search.gif")} />;
-  }
 
   return (
     <Container
@@ -86,6 +80,9 @@ export default function Medicos() {
               setSearch={setSearch}
               searchItemsF={searchItemsF}
             />
+          }
+          ListEmptyComponent={
+            <H2>No hay nada aqui...</H2>
           }
         />
       </Stack>

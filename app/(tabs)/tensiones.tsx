@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack } from "tamagui";
+import { H2, Stack } from "tamagui";
 import { Container } from "@/components/bases/layouts";
 
 import { Tension } from "@/types";
@@ -75,6 +75,9 @@ export default function Tensiones() {
               setSearch={setSearch}
               searchItemsF={searchItemsF}
             />
+          }
+          ListEmptyComponent={
+            <H2>No hay nada aqui...</H2>
           }
         />
       </Stack>
