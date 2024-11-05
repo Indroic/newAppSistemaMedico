@@ -22,7 +22,7 @@ export default function Tensiones() {
     return <TensionDataListItem tension={item} key={item.id} />;
   };
 
-  const searchItemsF = () => {
+  const searchItemsF = async () => {
     setLoading(true);
 
     if (search === "") {
@@ -36,7 +36,7 @@ export default function Tensiones() {
     });
 
     setItems(result);
-    setTimeout(() => setLoading(false), 3000);
+    setLoading(false);
     return;
   };
 

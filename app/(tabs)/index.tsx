@@ -22,7 +22,7 @@ export default function Medicos() {
     return <MedicDataListItem medic={item} key={item.id} />;
   };
 
-  const searchItemsF = () => {
+  const searchItemsF = async () => {
     setLoading(true);
   
     if (search === "") {

@@ -21,7 +21,7 @@ export default function Examenes() {
     return <ExamDataListItem exam={item} key={item.id} />;
   };
 
-  const searchItemsF = () => {
+  const searchItemsF = async () => {
     setLoading(true);
 
     if (search === "") {
@@ -50,7 +50,7 @@ export default function Examenes() {
       setItems(examenes);
     };
 
-    loadItems().finally(() => setTimeout(() => setLoading(false), 3000));
+    setLoading(false);
   }, [examenes]);
 
   React.useMemo(() => {
