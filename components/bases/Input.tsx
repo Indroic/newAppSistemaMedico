@@ -131,81 +131,57 @@ export default (props: InputProps) => {
           disabled={props.disabled}
         />
         {props.isPassword ? (
-          <Button
-            position="absolute"
-            right="$-3"
-            backgroundColor={"$colorTransparent"}
-            onPress={() => setIsSecure(!isSecure)}
-            pressStyle={{
-              backgroundColor: "$colorTransparent",
-              borderColor: "$colorTransparent",
-            }}
-            icon={
-              isSecure ? (
-                <Eye
-                  color={
-                    props.isValid != undefined
-                      ? props.isValid
-                        ? "green"
-                        : "red"
-                      : "$color9"
-                  }
-                  disabled={props.disabled}
-                  disabledStyle={{ opacity: 0.5 }}
-                  size={"$2"}
-                  zIndex={1000}
-                />
-              ) : (
-                <EyeOff
-                  color={
-                    props.isValid != undefined
-                      ? props.isValid
-                        ? "green"
-                        : "red"
-                      : "$color9"
-                  }
-                  disabled={props.disabled}
-                  disabledStyle={{ opacity: 0.5 }}
-                  zIndex={1000}
-                  size={"$2"}
-                />
-              )
-            }
-          />
-        ) : null}
-
-        {props.isValid !== undefined ? (
-          props.isValid ? (
-            <CircleCheck
+          isSecure ? (
+            <Eye
+              onPress={() => setIsSecure(!isSecure)}
               position="absolute"
-              top="$-4"
-              right="$-3"
-              color={"green"}
-              disabled={props.disabled}
-              disabledStyle={{ opacity: 0.5 }}
+              right="$3"
+              color={"$color9"}
             />
           ) : (
-            <CircleX
+            <EyeOff
+              onPress={() => setIsSecure(!isSecure)}
               position="absolute"
-              top="$-4"
-              right="$-3"
-              disabled={props.disabled}
-              disabledStyle={{ opacity: 0.5 }}
-              color={"red"}
+              right="$3"
+              color={"$color9"}
             />
           )
         ) : null}
+              {props.isValid !== undefined ? (
+        props.isValid ? (
+          <CircleCheck
+            position="absolute"
+            right="$-3"
+            top="$-4"
+            color={"green"}
+            disabled={props.disabled}
+            disabledStyle={{ opacity: 0.5 }}
+          />
+        ) : (
+          <CircleX
+            position="absolute"
+            top="$-4"
+            right="$-3"
+            disabled={props.disabled}
+            disabledStyle={{ opacity: 0.5 }}
+            color={"red"}
+          />
+        )
+      ) : null}
       </InputContainer>
-      {props.errorMessage && (
-        props.isValid && props.isValid !== true ? null : <Label
-        isValid={props.isValid}
-        disabled={props.disabled}
-        disabledStyle={{ opacity: 0.5 }}
-        lineHeight={"$2"}
-      >
-        {props.errorMessage}
-      </Label>
-      )}
+
+
+      {props.errorMessage &&
+        (props.isValid && props.isValid !== true ? null : (
+          <Label
+            isValid={props.isValid}
+            disabled={props.disabled}
+            disabledStyle={{ opacity: 0.5 }}
+            lineHeight={"$2"}
+          >
+            {props.errorMessage}
+          </Label>
+        ))}
     </YStack>
   );
 };

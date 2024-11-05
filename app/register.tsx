@@ -103,7 +103,6 @@ export default function MedicosScreen() {
       username: "",
       password: "",
       confirmPassword: "",
-      avatar: avatar,
       first_name: "",
       last_name: "",
       email: "",
@@ -116,7 +115,7 @@ export default function MedicosScreen() {
         const result = await onRegister({
           username: values.username,
           password: values.password,
-          avatar: values.avatar,
+          avatar: avatar,
           first_name: values.first_name,
           last_name: values.last_name,
           email: values.email,
@@ -151,10 +150,6 @@ export default function MedicosScreen() {
       >
         <H1>Registrese</H1>
         <Form width={"100%"} alignItems="center" paddingHorizontal={"$5"}>
-          <Avatar circular size={"$10"} onPress={selectAavatar}>
-            <Avatar.Image src={avatar} />
-          </Avatar>
-
           <XStack gap={5} width={"100%"} justifyContent="space-between">
             <Input
               label="Nombre"

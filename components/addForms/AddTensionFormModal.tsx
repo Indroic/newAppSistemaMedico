@@ -17,8 +17,8 @@ export default () => {
   const [open, setOpen] = React.useState(false);
 
   const validator = yup.object().shape({
-    sistolic: yup.number().required("La presión sistólica es requerida"),
-    diastolic: yup.number().required("La presión diastólica es requerida"),
+    sistolic: yup.number().positive().required("La presión sistólica es requerida"),
+    diastolic: yup.number().positive().required("La presión diastólica es requerida"),
   });
 
   const formik = useFormik({

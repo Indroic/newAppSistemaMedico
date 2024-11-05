@@ -71,39 +71,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const loginR: LoginProps = await login(data.username, data.password) as LoginProps;
 
-      if (loginR.token && !loginR.error && data.avatar) {
-        if (data.avatar) {
-          const uploading = await FileSystem.uploadAsync(
-            `https://backend-medics.vercel.app/api/profile/${user.id}/`,
-            data.avatar,
-            {
-              fieldName: "avatar",
-              httpMethod: "PATCH",
-              uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-              headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Token ${loginR.token}`,
-              },
-            }
-          );
-          let newuser = JSON.parse(uploading.body);
-
-          setAuthState({
-            token: loginR.token,
-            isAuthenticated: true,
-            user: newuser,
-          });
-
-          setToken(loginR.token);
-          setUser(user);
-
-          return {
-            Login: { token: loginR.token, user: newuser } as LoginProps,
-            error: false,
-          } as RegisterResult;
-        }
-      }
-
       setAuthState({
         token: loginR.token,
         isAuthenticated: true,
@@ -163,6 +130,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         message: error.response.data.error,
       } as LoginProps;
     }
+
+    return { error: false, message: "" } as LoginProps;
   };
 
   const logout = async () => {

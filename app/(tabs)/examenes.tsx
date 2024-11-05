@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Image, ScrollView, Spinner, Stack, XStack, YStack } from "tamagui";
+import { Stack} from "tamagui";
 import { Container } from "@/components/bases/layouts";
 
 import { Examen } from "@/types";
@@ -7,8 +7,6 @@ import { useExamenesStore } from "@/stores";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ExamDataListItem from "@/components/infoComponents/examenes/ExamDataListItem";
 import AddExamFormModal from "@/components/addForms/addExamFormModal";
-import Input from "@/components/bases/Input";
-import { Search } from "@tamagui/lucide-icons";
 import { SearchInput } from "@/components/bases/SearchInput";
 import { FlashList } from "@shopify/flash-list";
 
@@ -61,9 +59,6 @@ export default function Examenes() {
     }
   }, [search]);
 
-  if (loading) {
-    <Image source={require("../../assets/images/search.gif")} />
-  }
 
   return (
     <Container
@@ -86,7 +81,6 @@ export default function Examenes() {
               searchItemsF={searchItemsF}
             />
           }
-          ListEmptyComponent={<Image source={require("@/assets/images/not_found.png")} scale={0.5} />}
         />
       </Stack>
 

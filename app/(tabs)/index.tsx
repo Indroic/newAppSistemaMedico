@@ -87,7 +87,6 @@ export default function Medicos() {
               searchItemsF={searchItemsF}
             />
           }
-          ListEmptyComponent={<Image source={require("@/assets/images/not_found.png")} scale={0.5} />}
         />
       </Stack>
 

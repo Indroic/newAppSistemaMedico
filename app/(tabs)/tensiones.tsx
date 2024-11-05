@@ -1,12 +1,11 @@
 import React from "react";
-import { Button, Image, ScrollView, Stack, XStack, YStack } from "tamagui";
+import { Stack } from "tamagui";
 import { Container } from "@/components/bases/layouts";
 
 import { Tension } from "@/types";
 import { useMedicosStore } from "@/stores";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Input from "@/components/bases/Input";
-import { Search } from "@tamagui/lucide-icons";
+
 import TensionDataListItem from "@/components/infoComponents/tensiones/TensionDataListItem";
 import AddTensionFormModal from "@/components/addForms/AddTensionFormModal";
 import { SearchInput } from "@/components/bases/SearchInput";
@@ -55,9 +54,6 @@ export default function Tensiones() {
     }
   }, [search]);
 
-  if (loading) {
-    <Image source={require("../../assets/images/search.gif")} />
-  }
 
   return (
     <Container
@@ -80,7 +76,6 @@ export default function Tensiones() {
               searchItemsF={searchItemsF}
             />
           }
-          ListEmptyComponent={<Image source={require("@/assets/images/not_found.png")} scale={0.5} />}
         />
       </Stack>
 
