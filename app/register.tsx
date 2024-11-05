@@ -5,7 +5,7 @@ import { Container } from "@/components/bases/layouts";
 import Input from "@/components/bases/Input";
 import { ScrollView } from "tamagui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useGeneroStore, useMicelaneusStore } from "@/stores";
+import { useGeneroStore } from "@/stores";
 import CustomButton from "@/components/bases/CustomButton";
 import * as yup from "yup";
 import { useAuth } from "./context/AuthContext";
@@ -16,7 +16,6 @@ import SelectC from "@/components/bases/SelectC";
 export default function MedicosScreen() {
   const insets = useSafeAreaInsets();
   const { onRegister } = useAuth();
-  const { avatarPlaceholder } = useMicelaneusStore();
   const { generos } = useGeneroStore();
 
   const selectList = React.useMemo(() => {
