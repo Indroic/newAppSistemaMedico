@@ -1,4 +1,5 @@
 import axios from "axios";
+import { createReportType } from "./types";
 
 const base = "https://backend-medics.onrender.com/"
 
@@ -230,6 +231,20 @@ const updateUser = async (id: string, data: any, token: string) => {
   return response;
 };
 
+const createReport = async (datos: createReportType, token: string) => {
+  const { data: response } = await axios
+    .create({
+      baseURL: base,
+      headers: {
+        Authorization: `Token ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .patch(`reports/report/`, JSON.stringify(datos));
+
+  return response;
+};
+
 const loginRequest = async (username: string, password: string) => {
   const request = await axios
     .create({
@@ -272,5 +287,6 @@ export {
   getTensiones,
   getConsultas,
   addConsulta,
-  addTension
+  addTension,
+  createReport,
 };

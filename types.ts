@@ -123,6 +123,16 @@ interface Consulta {
   update_at: string;
 }
 
+interface createReportType {
+  data: {[key: string]: any}[]
+}
+
+interface ReporteType{
+  id: string;
+  file: string;
+  reporte: string;
+}
+
 export {
   Medico,
   Especialidad,
@@ -137,5 +147,7 @@ export {
   ErrorType,
   GeneroType,
   Tension,
-  Consulta
+  Consulta,
+  createReportType,
+  ReporteType
 };
