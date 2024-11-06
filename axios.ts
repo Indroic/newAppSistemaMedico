@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const base = "https://backend-medics.onrender.com/"
+
 const axiosInstance = axios.create({
-  baseURL: "https://backend-medics.vercel.app/",
+  baseURL: base,
 });
 
 const getEspecialidades = async () => {
@@ -35,7 +37,7 @@ const getMedicos = async (token: string) => {
 const addConsulta = async (data: any, token: string) => {
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${token}`
       },
@@ -48,7 +50,7 @@ const addConsulta = async (data: any, token: string) => {
 const addTension = async (data: any, token: string) => {
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${token}`
       },
@@ -91,7 +93,7 @@ const getExamenes = async (token: string) => {
 const getMedico = async (id: string, token: string) => {
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${token}`,
       },
@@ -104,7 +106,7 @@ const getMedico = async (id: string, token: string) => {
 const addMedico = async (data: any, token: string | null) => {
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${token}`,
       },
@@ -121,7 +123,7 @@ const updateMedico = async (props: {
 }) => {
   const response = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${props.token}`,
         "Content-Type": "multipart/form-data",
@@ -135,7 +137,7 @@ const updateMedico = async (props: {
 const getExamen = async (id: string, token: string) => {
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${token}`,
       },
@@ -148,7 +150,7 @@ const getExamen = async (id: string, token: string) => {
 const addExamen = async (data: any, token: string) => {
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${token}`,
         "Content-Type": "multipart/form-data",
@@ -162,7 +164,7 @@ const addExamen = async (data: any, token: string) => {
 const deleteExamen = async (id: string, token: string) => {
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${token}`,
         "Content-Type": "multipart/form-data",
@@ -177,7 +179,7 @@ const deleteMedico = async (id: string, token: string) => {
   console.log(id, token);
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${token}`,
         "Content-Type": "multipart/form-data",
@@ -193,7 +195,7 @@ const deleteMedico = async (id: string, token: string) => {
 const updateExamen = async (id: string, data: any, token: string) => {
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${token}`,
         "Content-Type": "multipart/form-data",
@@ -207,7 +209,7 @@ const updateExamen = async (id: string, data: any, token: string) => {
 const registerRequest = async (data: any) => {
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
     })
     .post("auth/register/", data);
 
@@ -217,7 +219,7 @@ const registerRequest = async (data: any) => {
 const updateUser = async (id: string, data: any, token: string) => {
   const { data: response } = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
       headers: {
         Authorization: `Token ${token}`,
         "Content-Type": "multipart/form-data",
@@ -231,7 +233,7 @@ const updateUser = async (id: string, data: any, token: string) => {
 const loginRequest = async (username: string, password: string) => {
   const request = await axios
     .create({
-      baseURL: "https://backend-medics.vercel.app/",
+      baseURL: base,
     })
     .post(
       "auth/login/",
