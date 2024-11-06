@@ -15,6 +15,8 @@ import {
 } from "@react-navigation/native";
 import { AuthProvider } from "./context/AuthContext";
 
+import { AlertNotificationRoot } from "react-native-alert-notification";
+
 const darkUse = "dark";
 const lightUse = "light";
 
@@ -28,21 +30,26 @@ export default function RootLayout() {
           <PortalProvider shouldAddRootHost>
             <AuthProvider>
               <SafeAreaProvider>
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen
-                    name="(tabs)"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen name="index" options={{ headerShown: false }} />
-                  <Stack.Screen
-                    name="register"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="modal"
-                    options={{ presentation: "transparentModal" }}
-                  />
-                </Stack>
+                <AlertNotificationRoot>
+                  <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen
+                      name="(tabs)"
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="index"
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="register"
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="modal"
+                      options={{ presentation: "transparentModal" }}
+                    />
+                  </Stack>
+                </AlertNotificationRoot>
               </SafeAreaProvider>
             </AuthProvider>
           </PortalProvider>

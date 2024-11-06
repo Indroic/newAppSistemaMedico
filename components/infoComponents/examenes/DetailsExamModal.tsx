@@ -1,34 +1,26 @@
 import React from "react";
 import {
-  Avatar,
   Button,
   H3,
   Progress,
-  Sheet,
   Text,
   XStack,
   YStack,
 } from "tamagui";
 import {
-  Calendar,
   CalendarPlus,
   File,
-  Phone,
   Stethoscope,
   Trash,
 } from "@tamagui/lucide-icons";
 import { Examen } from "@/types";
-import XButton from "@/components/bases/XButton";
-import * as FileSystem from "expo-file-system";
-import * as Linking from "expo-linking";
-import { shareAsync } from "expo-sharing";
-import * as Constants from "expo-constants";
 
 import EditExamModal from "@/components/editForms/EditExamModal";
 import { deleteExamen } from "@/axios";
 import { useAuthStore, useExamenesStore } from "@/stores";
-import * as mime from "mime";
+
 import InfoModal from "@/components/bases/InfoModal";
+import { downloadFile } from "@/utils/files";
 
 export default (props: {
   exam: Examen;
@@ -37,57 +29,8 @@ export default (props: {
 }) => {
   const [downloaded, setDownloaded] = React.useState(false);
   const [downloadProgress, setDownloadProgress] = React.useState(0);
-  const fileName: string = props.exam.archivo.split("/").pop() as string;
   const { token } = useAuthStore();
   const { removeExamen } = useExamenesStore();
-
-  async function saveFile(uri: string, filename: string, mimetype: string) {
-    try {
-      if (
-        Constants.default.platform?.android ||
-        Constants.default.platform?.ios
-      ) {
-        const permissions =
-          await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-
-        if (permissions.granted) {
-          const base64 = await FileSystem.readAsStringAsync(uri, {
-            encoding: FileSystem.EncodingType.Base64,
-          });
-
-          const fileUri =
-            await FileSystem.StorageAccessFramework.createFileAsync(
-              permissions.directoryUri,
-              filename,
-              mimetype
-            );
-
-          await FileSystem.writeAsStringAsync(fileUri, base64, {
-            encoding: FileSystem.EncodingType.Base64,
-          });
-
-          alert("Archivo descargado Correctamente!!");
-        } else {
-          shareAsync(uri);
-        }
-      } else {
-        shareAsync(uri);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const callBack = (downloadProgress: FileSystem.DownloadProgressData) => {
-    setDownloadProgress(Math.floor(Math.random() * 100));
-  };
-
-  const downloadResumable = FileSystem.createDownloadResumable(
-    props.exam.archivo,
-    FileSystem.documentDirectory + "/MedicDocs/" + fileName,
-    {},
-    callBack
-  );
 
   return (
     <InfoModal
@@ -102,6 +45,7 @@ export default (props: {
           borderBottomEndRadius={"$4"}
           backgroundColor={"$color5"}
         >
+          <EditExamModal exam={props.exam} />
           <YStack alignItems="center">
             <H3>{props.exam.titulo}</H3>
           </YStack>
@@ -153,17 +97,16 @@ export default (props: {
             alignItems="center"
             onPress={() => {
               setDownloaded(true);
-              setDownloadProgress(100);
-              downloadResumable.downloadAsync().then((file) => {
+              setDownloadProgress(20);
+              downloadFile(
+                props.exam.archivo
+              ).then(() => {
                 setDownloadProgress(100);
-                saveFile(
-                  file?.uri as string,
-                  fileName,
-                  mime.default.getType(file?.uri as string) as string
-                ).then(() => {
-                  alert("Archivo descargado Correctamente!!");
-                });
-              });
+                setTimeout(() => {
+                  setDownloaded(false);
+                }, 1000);
+              })
+              
             }}
           >
             <XStack
@@ -179,7 +122,7 @@ export default (props: {
           </XStack>
           {downloaded && (
             <Progress
-              backgroundColor={"$color10"}
+              backgroundColor={"$color4"}
               size={"$3"}
               value={downloadProgress}
               enterStyle={{ opacity: 0 }}
@@ -188,7 +131,7 @@ export default (props: {
               animateOnly={["opacity"]}
             >
               <Progress.Indicator
-                backgroundColor={"$color4"}
+                backgroundColor={"$color10"}
                 animation={"fast"}
               ></Progress.Indicator>
             </Progress>

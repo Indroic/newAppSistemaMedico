@@ -1,6 +1,5 @@
 import React from "react";
-import { H3, Label, Sheet, Text, XStack, YStack } from "tamagui";
-import { Consulta } from "@/types";
+import { Sheet} from "tamagui";
 import XButton from "./XButton";
 
 export default (props: {
