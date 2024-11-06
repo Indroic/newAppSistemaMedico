@@ -133,6 +133,12 @@ interface ReporteType{
   reporte: string;
 }
 
+interface GenerateReportType{
+  error: boolean;
+  message: string;
+  reporte?: ReporteType;
+}
+
 export {
   Medico,
   Especialidad,
@@ -149,5 +155,6 @@ export {
   Tension,
   Consulta,
   createReportType,
-  ReporteType
+  ReporteType,
+  GenerateReportType
 };

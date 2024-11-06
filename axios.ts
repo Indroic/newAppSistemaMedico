@@ -240,7 +240,7 @@ const createReport = async (datos: createReportType, token: string) => {
         "Content-Type": "application/json",
       },
     })
-    .patch(`reports/report/`, JSON.stringify(datos));
+    .post(`reports/report/`, JSON.stringify(datos));
 
   return response;
 };

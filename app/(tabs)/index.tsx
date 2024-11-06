@@ -5,13 +5,14 @@ import { FlashList } from "@shopify/flash-list";
 import MedicDataListItem from "@/components/infoComponents/medicos/MedicDataListItem";
 import { Medico } from "@/types";
 import AddMedicFormModal from "@/components/addForms/AddMedicFormModal";
-import { useMedicosStore } from "@/stores";
+import { useAuthStore, useMedicosStore } from "@/stores";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SearchInput } from "@/components/bases/SearchInput";
 
 import * as ld from "lodash";
 import DialogInstance from "@/components/bases/Dialog";
 import CustomButton from "@/components/bases/CustomButton";
+import { generateReport } from "@/utils/reports";
 
 export default function Medicos() {
   const { medicos } = useMedicosStore();
@@ -20,6 +21,7 @@ export default function Medicos() {
   const [search, setSearch] = React.useState("");
   const insets = useSafeAreaInsets();
   const [openModal, setOpenModal] = React.useState(false);
+  const { token } = useAuthStore();
 
   const renderItem = ({ item }: { item: Medico }) => {
     return <MedicDataListItem medic={item} key={item.id} />;
@@ -105,7 +107,9 @@ export default function Medicos() {
         buttonText1="Agregar"
         buttonText2="Generar Reporte(ultimos 7 dias)"
         buttonAction1={() => setOpenModal(!openModal)}
-        buttonAction2={() => console.log("generar")}
+        buttonAction2={() => {
+          generateReport({data: medicos}, token)
+        }}
       />
       <AddMedicFormModal open={openModal} onOpenChange={setOpenModal} />
     </Container>
