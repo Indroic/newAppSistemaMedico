@@ -11,10 +11,9 @@ import * as yup from "yup";
 import { addTension } from "@/axios";
 import { Tension } from "@/types";
 
-export default () => {
+export default (props: { open: boolean; setOpen: (open: boolean) => void }) => {
   const { token, user } = useAuthStore();
   const { addTension: addTensionStore } = useMedicosStore();
-  const [open, setOpen] = React.useState(false);
 
   const validator = yup.object().shape({
     sistolic: yup.number().positive().required("La presión sistólica es requerida"),
@@ -38,7 +37,7 @@ export default () => {
           );
           formik.resetForm();
           formik.setSubmitting(false);
-          setOpen(!open);
+          props.setOpen(!props.open);
           addTensionStore(result);
         } catch (error: any) {
           console.log(error);
@@ -57,7 +56,7 @@ export default () => {
   });
 
   return (
-    <FormModal open={open} setOpen={setOpen} snapPoints={[40, 40]}>
+    <FormModal open={props.open} setOpen={props.setOpen} snapPoints={[40, 40]}>
       <H3>Agregar Nuevo Registro de Tensión</H3>
       <Form paddingHorizontal="$4">
         <YStack gap={"$3"}>

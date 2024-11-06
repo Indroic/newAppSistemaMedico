@@ -1,5 +1,5 @@
 import React from "react";
-import { H2, Image, ScrollView, Stack, YStack } from "tamagui";
+import { H2, Image, ScrollView, Spinner, Stack, YStack } from "tamagui";
 import { Container } from "@/components/bases/layouts";
 import { FlashList } from "@shopify/flash-list";
 import MedicDataListItem from "@/components/infoComponents/medicos/MedicDataListItem";
@@ -10,6 +10,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SearchInput } from "@/components/bases/SearchInput";
 
 import * as ld from "lodash";
+import DialogInstance from "@/components/bases/Dialog";
+import CustomButton from "@/components/bases/CustomButton";
 
 export default function Medicos() {
   const { medicos } = useMedicosStore();
@@ -17,6 +19,7 @@ export default function Medicos() {
   const [items, setItems] = React.useState<Medico[]>([]);
   const [search, setSearch] = React.useState("");
   const insets = useSafeAreaInsets();
+  const [openModal, setOpenModal] = React.useState(false);
 
   const renderItem = ({ item }: { item: Medico }) => {
     return <MedicDataListItem medic={item} key={item.id} />;
@@ -24,33 +27,41 @@ export default function Medicos() {
 
   const searchItemsF = async () => {
     setLoading(true);
-  
+
     if (search === "") {
       setItems(medicos);
       setLoading(false);
       return;
     }
-  
-    const result = ld.chain(items)
+
+    const result = ld
+      .chain(items)
       .filter((item) => {
         const nombre = item.nombre.toLowerCase();
         const especialidad = item.especialidad.especialidad.toLowerCase();
         const fecha = item.create_at.split("T")[0].toLowerCase();
-  
+
         const searchLower = search.toLowerCase();
-  
+
         return (
-        ld.includes(nombre, searchLower) ||
-        ld.includes(especialidad, searchLower) ||
-        ld.includes(fecha, searchLower)
+          ld.includes(nombre, searchLower) ||
+          ld.includes(especialidad, searchLower) ||
+          ld.includes(fecha, searchLower)
         );
       })
       .value();
-  
+
     setItems(result);
     setLoading(false);
     return;
   };
+  React.useEffect(() => {
+    const loadItems = async () => {
+      setItems(medicos);
+    }
+
+    loadItems().finally(() => setLoading(false));
+  }, [medicos]);
 
   React.useMemo(() => {
     const loadItems = async () => {
@@ -59,6 +70,10 @@ export default function Medicos() {
 
     loadItems().finally(() => setLoading(false));
   }, [medicos]);
+
+  if (loading) {
+    return <Stack><Spinner  /></Stack>;
+  }
 
   return (
     <Container
@@ -81,13 +96,18 @@ export default function Medicos() {
               searchItemsF={searchItemsF}
             />
           }
-          ListEmptyComponent={
-            <H2>No hay nada aqui...</H2>
-          }
+          ListEmptyComponent={<H2>No hay nada aqui...</H2>}
         />
       </Stack>
 
-      <AddMedicFormModal />
+      <DialogInstance
+        title="Opciones de Médicos"
+        buttonText1="Agregar"
+        buttonText2="Generar Reporte(ultimos 7 dias)"
+        buttonAction1={() => setOpenModal(!openModal)}
+        buttonAction2={() => console.log("generar")}
+      />
+      <AddMedicFormModal open={openModal} onOpenChange={setOpenModal} />
     </Container>
   );
 }

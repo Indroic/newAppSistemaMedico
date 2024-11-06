@@ -1,6 +1,6 @@
 import React from "react";
 import FormModal from "../bases/AddFormModal";
-import { Avatar, Form, H3, YStack } from "tamagui";
+import { Avatar, Form, H3, Stack, YStack } from "tamagui";
 import { ContainerX } from "../bases/layouts";
 import Input from "../bases/Input";
 import SelectC from "../bases/SelectC";
@@ -13,10 +13,9 @@ import { useFormik } from "formik";
 import { Medico } from "@/types";
 import { addMedico } from "@/axios";
 
-export default () => {
+export default (props:{open: boolean, onOpenChange: (open: boolean) => void}) => {
   const { avatarPlaceholder } = useMicelaneusStore();
   const [imagen, setImagen] = React.useState<string>(avatarPlaceholder);
-  const [open, setOpen] = React.useState(false);
   const { especialidades, addMedico: addMedicoStore } = useMedicosStore();
   const { token, user } = useAuthStore();
 
@@ -121,7 +120,7 @@ export default () => {
           addMedicoStore(result);
           formik.resetForm();
           formik.setSubmitting(false);
-          setOpen(!open);
+          props.onOpenChange(!props.open);
         } catch (error: any) {
           let errors = error.response.data;
           formik.setSubmitting(false);
@@ -137,7 +136,8 @@ export default () => {
   });
 
   return (
-    <FormModal open={open} setOpen={setOpen} snapPoints={[70, 70]}>
+    <Stack>
+      <FormModal open={props.open} setOpen={props.onOpenChange} snapPoints={[70, 70]}>
       <H3>Agregar Nuevo Médico</H3>
       <Form gap={"$3"} paddingHorizontal="$3">
         <YStack gap={"$3"} alignItems="center">
@@ -245,5 +245,6 @@ export default () => {
         </Form.Trigger>
       </Form>
     </FormModal>
+    </Stack>
   );
 };

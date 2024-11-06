@@ -1,5 +1,5 @@
 import React from "react";
-import { H2, Stack} from "tamagui";
+import { H2, Spinner, Stack} from "tamagui";
 import { Container } from "@/components/bases/layouts";
 
 import { Consulta } from "@/types";
@@ -10,13 +10,15 @@ import AddConsultaFormModal from "@/components/addForms/AddConsultaFormModal";
 import ConsultaDataListItem from "@/components/infoComponents/consultas/ConsultaDataListItem";
 import { SearchInput } from "@/components/bases/SearchInput";
 import { FlashList } from "@shopify/flash-list";
+import DialogInstance from "@/components/bases/Dialog";
 
-export default function Medicos() {
+export default function Consultas() {
   const { consultas } = useMedicosStore();
   const [loading, setLoading] = React.useState(true);
   const [items, setItems] = React.useState<Consulta[]>([]);
   const [search, setSearch] = React.useState("");
   const insets = useSafeAreaInsets();
+  const [openModal, setOpenModal] = React.useState(false);
 
   const renderItem = ({ item }: { item: Consulta }) => {
     return <ConsultaDataListItem consulta={item} key={item.id} />;
@@ -55,8 +57,7 @@ export default function Medicos() {
     const loadItems = async () => {
       setItems(consultas);
     };
-
-    setLoading(false);
+    loadItems().finally(() => setLoading(false));
   }, [consultas]);
 
   React.useMemo(() => {
@@ -64,6 +65,10 @@ export default function Medicos() {
       setItems(consultas);
     }
   }, [search]);
+
+  if (loading) {
+    return <Stack><Spinner  /></Stack>;
+  }
 
   return (
     <Container
@@ -91,8 +96,15 @@ export default function Medicos() {
           }
           />
       </Stack>
+      <DialogInstance
+        title="Opciones de Consultas"
+        buttonText1="Agregar"
+        buttonText2="Generar Reporte(ultimos 7 dias)"
+        buttonAction1={() => setOpenModal(!openModal)}
+        buttonAction2={() => console.log("generar")}
+      />
 
-      <AddConsultaFormModal />
+      <AddConsultaFormModal open={openModal} setOpen={setOpenModal} />
     </Container>
   );
 }

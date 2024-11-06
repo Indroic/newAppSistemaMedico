@@ -12,8 +12,10 @@ import { Consulta } from "@/types";
 import { addConsulta } from "@/axios";
 import TextArea from "../bases/TextArea";
 
-export default () => {
-  const [open, setOpen] = React.useState(false);
+export default (props: {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}) => {
   const { medicos, addConsulta: addConsultaStore } = useMedicosStore();
   const { token, user } = useAuthStore();
 
@@ -61,7 +63,7 @@ export default () => {
           addConsultaStore(result);
           formik.resetForm();
           formik.setSubmitting(false);
-          setOpen(!open);
+          props.setOpen(!props.open);
         } catch (error: any) {
           let errors = error.response.data;
           formik.setSubmitting(false);
@@ -77,7 +79,7 @@ export default () => {
   });
 
   return (
-    <FormModal open={open} setOpen={setOpen} snapPoints={[55, 55]}>
+    <FormModal open={props.open} setOpen={props.setOpen} snapPoints={[55, 55]}>
       <H3>Agregar Nueva Consulta</H3>
       <Form gap={"$3"} paddingHorizontal="$3">
         <YStack width={"100%"} gap={"$3"}>

@@ -14,11 +14,14 @@ import { addExamen } from "@/axios";
 import { Examen } from "@/types";
 import TextArea from "../bases/TextArea";
 
-export default () => {
+export default (props: {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}) => {
   const { token, user } = useAuthStore();
   const { categorias, addExamen: addExamenStore } = useExamenesStore();
   const [selectFileName, setSelectFileName] = React.useState("");
-  const [open, setOpen] = React.useState(false);
+
 
   const selectList = React.useMemo(() => {
     return categorias.map((categoria) => {
@@ -103,7 +106,7 @@ export default () => {
 
           formik.resetForm();
           formik.setSubmitting(false);
-          setOpen(!open);
+          props.setOpen(!props.open);
           addExamenStore(result);
         } catch (error: any) {
           console.log(error);
@@ -122,7 +125,7 @@ export default () => {
   });
 
   return (
-    <FormModal open={open} setOpen={setOpen} snapPoints={[70,70]}>
+    <FormModal open={props.open} setOpen={props.setOpen} snapPoints={[70,70]}>
       <H3>Agregar Nuevo Examen</H3>
       <Form paddingHorizontal="$4">
         <YStack gap={"$3"}>

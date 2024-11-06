@@ -1,5 +1,5 @@
 import React from "react";
-import { H2, Stack} from "tamagui";
+import { H2, Spinner, Stack} from "tamagui";
 import { Container } from "@/components/bases/layouts";
 
 import { Examen } from "@/types";
@@ -9,12 +9,14 @@ import ExamDataListItem from "@/components/infoComponents/examenes/ExamDataListI
 import AddExamFormModal from "@/components/addForms/addExamFormModal";
 import { SearchInput } from "@/components/bases/SearchInput";
 import { FlashList } from "@shopify/flash-list";
+import DialogInstance from "@/components/bases/Dialog";
 
 export default function Examenes() {
   const { examenes } = useExamenesStore();
   const [loading, setLoading] = React.useState(true);
   const [items, setItems] = React.useState<Examen[]>([]);
   const [search, setSearch] = React.useState("");
+  const [openModal, setOpenModal] = React.useState(false);
   const insets = useSafeAreaInsets();
 
   const renderItem = ({ item }: { item: Examen }) => {
@@ -45,20 +47,23 @@ export default function Examenes() {
     return;
   };
 
-  React.useEffect(() => {
-    const loadItems = async () => {
-      setItems(examenes);
-    };
-
-    setLoading(false);
-  }, [examenes]);
-
   React.useMemo(() => {
     if (search === "") {
       setItems(examenes);
     }
   }, [search]);
 
+  React.useEffect(() => {
+    const loadItems = async () => {
+      setItems(examenes);
+    }
+
+    loadItems().finally(() => setLoading(false));
+  }, [examenes]);
+
+  if (loading) {
+    return <Stack><Spinner  /></Stack>;
+  }
 
   return (
     <Container
@@ -87,7 +92,14 @@ export default function Examenes() {
         />
       </Stack>
 
-      <AddExamFormModal />
+      <DialogInstance
+        title="Opciones de Exámenes"
+        buttonText1="Agregar"
+        buttonText2="Generar Reporte(ultimos 7 dias)"
+        buttonAction1={() => setOpenModal(!openModal)}
+        buttonAction2={() => console.log("generar")}
+      />
+      <AddExamFormModal open={openModal} setOpen={setOpenModal} />
     </Container>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { H2, Stack } from "tamagui";
+import { H2, Spinner, Stack } from "tamagui";
 import { Container } from "@/components/bases/layouts";
 
 import { Tension } from "@/types";
@@ -10,6 +10,7 @@ import TensionDataListItem from "@/components/infoComponents/tensiones/TensionDa
 import AddTensionFormModal from "@/components/addForms/AddTensionFormModal";
 import { SearchInput } from "@/components/bases/SearchInput";
 import { FlashList } from "@shopify/flash-list";
+import DialogInstance from "@/components/bases/Dialog";
 
 export default function Tensiones() {
   const { tensiones } = useMedicosStore();
@@ -17,6 +18,7 @@ export default function Tensiones() {
   const [items, setItems] = React.useState<Tension[]>([]);
   const [search, setSearch] = React.useState("");
   const insets = useSafeAreaInsets();
+  const [openModal, setOpenModal] = React.useState(false);
 
   const renderItem = ({ item }: { item: Tension }) => {
     return <TensionDataListItem tension={item} key={item.id} />;
@@ -54,6 +56,9 @@ export default function Tensiones() {
     }
   }, [search]);
 
+  if (loading) {
+    return <Stack><Spinner  /></Stack>;
+  }
 
   return (
     <Container
@@ -82,7 +87,15 @@ export default function Tensiones() {
         />
       </Stack>
 
-      <AddTensionFormModal />
+      <DialogInstance
+        title="Opciones de Tensiones"
+        buttonText1="Agregar"
+        buttonText2="Generar Reporte(Dia Actual)"
+        buttonAction1={() => setOpenModal(!openModal)}
+        buttonAction2={() => console.log("generar")}
+      />
+
+      <AddTensionFormModal open={openModal} setOpen={setOpenModal} />
     </Container>
   );
 }
