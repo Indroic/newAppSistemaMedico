@@ -3,7 +3,7 @@ import { H2, Spinner, Stack } from "tamagui";
 import { Container } from "@/components/bases/layouts";
 
 import { Tension } from "@/types";
-import { useMedicosStore } from "@/stores";
+import { useAuthStore, useMedicosStore } from "@/stores";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import TensionDataListItem from "@/components/infoComponents/tensiones/TensionDataListItem";
@@ -11,6 +11,7 @@ import AddTensionFormModal from "@/components/addForms/AddTensionFormModal";
 import { SearchInput } from "@/components/bases/SearchInput";
 import { FlashList } from "@shopify/flash-list";
 import DialogInstance from "@/components/bases/Dialog";
+import { generateReport } from "@/utils/reports";
 
 export default function Tensiones() {
   const { tensiones } = useMedicosStore();
@@ -19,6 +20,7 @@ export default function Tensiones() {
   const [search, setSearch] = React.useState("");
   const insets = useSafeAreaInsets();
   const [openModal, setOpenModal] = React.useState(false);
+  const { token } = useAuthStore();
 
   const renderItem = ({ item }: { item: Tension }) => {
     return <TensionDataListItem tension={item} key={item.id} />;
@@ -92,7 +94,9 @@ export default function Tensiones() {
         buttonText1="Agregar"
         buttonText2="Generar Reporte(Dia Actual)"
         buttonAction1={() => setOpenModal(!openModal)}
-        buttonAction2={() => console.log("generar")}
+        buttonAction2={() => {
+          generateReport({data: tensiones}, token)
+        }}
       />
 
       <AddTensionFormModal open={openModal} setOpen={setOpenModal} />

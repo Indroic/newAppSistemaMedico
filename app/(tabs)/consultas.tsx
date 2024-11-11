@@ -3,7 +3,7 @@ import { H2, Spinner, Stack} from "tamagui";
 import { Container } from "@/components/bases/layouts";
 
 import { Consulta } from "@/types";
-import { useMedicosStore } from "@/stores";
+import { useAuthStore, useMedicosStore } from "@/stores";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import AddConsultaFormModal from "@/components/addForms/AddConsultaFormModal";
@@ -11,6 +11,7 @@ import ConsultaDataListItem from "@/components/infoComponents/consultas/Consulta
 import { SearchInput } from "@/components/bases/SearchInput";
 import { FlashList } from "@shopify/flash-list";
 import DialogInstance from "@/components/bases/Dialog";
+import { generateReport } from "@/utils/reports";
 
 export default function Consultas() {
   const { consultas } = useMedicosStore();
@@ -19,6 +20,7 @@ export default function Consultas() {
   const [search, setSearch] = React.useState("");
   const insets = useSafeAreaInsets();
   const [openModal, setOpenModal] = React.useState(false);
+  const { token } = useAuthStore();
 
   const renderItem = ({ item }: { item: Consulta }) => {
     return <ConsultaDataListItem consulta={item} key={item.id} />;
@@ -101,7 +103,9 @@ export default function Consultas() {
         buttonText1="Agregar"
         buttonText2="Generar Reporte(ultimos 7 dias)"
         buttonAction1={() => setOpenModal(!openModal)}
-        buttonAction2={() => console.log("generar")}
+        buttonAction2={() => {
+          generateReport({data: consultas}, token)
+        }}
       />
 
       <AddConsultaFormModal open={openModal} setOpen={setOpenModal} />

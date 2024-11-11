@@ -3,13 +3,14 @@ import { H2, Spinner, Stack} from "tamagui";
 import { Container } from "@/components/bases/layouts";
 
 import { Examen } from "@/types";
-import { useExamenesStore } from "@/stores";
+import { useAuthStore, useExamenesStore } from "@/stores";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ExamDataListItem from "@/components/infoComponents/examenes/ExamDataListItem";
 import AddExamFormModal from "@/components/addForms/addExamFormModal";
 import { SearchInput } from "@/components/bases/SearchInput";
 import { FlashList } from "@shopify/flash-list";
 import DialogInstance from "@/components/bases/Dialog";
+import { generateReport } from "@/utils/reports";
 
 export default function Examenes() {
   const { examenes } = useExamenesStore();
@@ -18,6 +19,7 @@ export default function Examenes() {
   const [search, setSearch] = React.useState("");
   const [openModal, setOpenModal] = React.useState(false);
   const insets = useSafeAreaInsets();
+  const { token } = useAuthStore();
 
   const renderItem = ({ item }: { item: Examen }) => {
     return <ExamDataListItem exam={item} key={item.id} />;
@@ -97,7 +99,9 @@ export default function Examenes() {
         buttonText1="Agregar"
         buttonText2="Generar Reporte(ultimos 7 dias)"
         buttonAction1={() => setOpenModal(!openModal)}
-        buttonAction2={() => console.log("generar")}
+        buttonAction2={() => {
+          generateReport({data: examenes}, token)
+        }}
       />
       <AddExamFormModal open={openModal} setOpen={setOpenModal} />
     </Container>
