@@ -1,5 +1,5 @@
 import React from "react";
-import { H1, Text, Button, Form, YStack, H4, Image } from "tamagui";
+import { H1, Text, Button, Form, YStack, H4, Image, H2 } from "tamagui";
 import { Container } from "@/components/bases/layouts";
 import Input from "@/components/bases/Input";
 import { Link, router } from "expo-router";
@@ -52,8 +52,9 @@ export default function MedicosScreen() {
 
   return (
     <Container gap={20}>
-      <Image width={"$10"} height={"$10"} source={require("../assets/images/icon.png")}></Image>
-      <H1>Inicie Sesión</H1>
+      <Image width={"$10"} height={"$10"} source={require("../assets/images/icon-rounded.png")}></Image>
+      <H1>Medit Kit P</H1>
+      <H2>Inicie Sesión</H2>
       <Form
         onSubmit={() => formik.handleSubmit()}
         width={"100%"}

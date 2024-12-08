@@ -8,12 +8,14 @@ import { tamaguiConfig } from "../tamagui.config";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { StatusBar } from "expo-status-bar";
+
 import {
   ThemeProvider,
   DarkTheme,
   DefaultTheme,
 } from "@react-navigation/native";
-import { AuthProvider } from "./context/AuthContext";
+import AuthProvider  from "./context/AuthContext";
 
 import { AlertNotificationRoot } from "react-native-alert-notification";
 
@@ -31,6 +33,7 @@ export default function RootLayout() {
             <AuthProvider>
               <SafeAreaProvider>
                 <AlertNotificationRoot>
+                  <StatusBar style="auto"></StatusBar>
                   <Stack screenOptions={{ headerShown: false }}>
                     <Stack.Screen
                       name="(tabs)"

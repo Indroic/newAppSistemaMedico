@@ -24,7 +24,7 @@ export const useAuth = () => {
   return React.useContext(AuthContext);
 };
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export default function AuthProvider ({ children }: { children: React.ReactNode }) {
   const { setToken, setUser } = useAuthStore();
   const [authState, setAuthState] = React.useState<AuthStateProps>({
     token: "",

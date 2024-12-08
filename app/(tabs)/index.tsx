@@ -73,10 +73,6 @@ export default function Medicos() {
     loadItems().finally(() => setLoading(false));
   }, [medicos]);
 
-  if (loading) {
-    return <Stack><Spinner  /></Stack>;
-  }
-
   return (
     <Container
       paddingBottom={insets.bottom + 90}

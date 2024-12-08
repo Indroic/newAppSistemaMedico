@@ -63,10 +63,6 @@ export default function Examenes() {
     loadItems().finally(() => setLoading(false));
   }, [examenes]);
 
-  if (loading) {
-    return <Stack><Spinner  /></Stack>;
-  }
-
   return (
     <Container
       paddingBottom={insets.bottom + 90}

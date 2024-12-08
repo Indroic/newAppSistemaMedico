@@ -68,10 +68,6 @@ export default function Consultas() {
     }
   }, [search]);
 
-  if (loading) {
-    return <Stack><Spinner  /></Stack>;
-  }
-
   return (
     <Container
       paddingBottom={insets.bottom + 90}

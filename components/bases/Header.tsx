@@ -28,7 +28,7 @@ export default (props: Props) => {
         <Image
           width={"$4"}
           height={"$4"}
-          source={require("@/assets/images/icon.png")}
+          source={require("@/assets/images/icon-rounded.png")}
         />
         <H6>Medic Kit P</H6>
       </XStack>
