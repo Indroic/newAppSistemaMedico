@@ -77,7 +77,7 @@ export default function MedicosScreen() {
   React.useMemo(() => {
     const downloadAvatarPlaceholder = () => {
       setAvatarPlaceholder(
-        "https://rnkqnkvcketqhptlupct.supabase.co/storage/v1/object/public/storage-medics/avatars/avatar-placeholder.png"
+        "https://vftuulahhklxpmhzxemz.supabase.co/storage/v1/object/public/storage-medics/avatar-placeholder.png"
       );
 
       return true;

@@ -33,6 +33,7 @@
     "@tamagui/react-native-media-driver": "^1.119.0",
     "@types/lodash": "^4.17.13",
     "axios": "^1.7.9",
+    "eas": "^0.1.0",
     "expo": "^52.0.17",
     "expo-constants": "^17.0.3",
     "expo-document-picker": "~13.0.1",

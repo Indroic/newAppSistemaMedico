@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createReportType } from "./types";
 
-const base = "https://backend-medics.onrender.com/"
+const base = "https://backend-medics.vercel.app/"
 
 const axiosInstance = axios.create({
   baseURL: base,
