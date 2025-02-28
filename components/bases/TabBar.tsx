@@ -1,14 +1,14 @@
 import React from "react";
-import { XStack, Text } from "tamagui";
 import TabBarButton from "./TabBarButton";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ContainerX } from "./layouts";
 
 export default ({ state, descriptors, navigation }: BottomTabBarProps) => {
   const insets = useSafeAreaInsets();
 
   return (
-    <XStack
+    <ContainerX
       flex={1}
       maxHeight={70}
       backgroundColor={"$background"}
@@ -79,6 +79,6 @@ export default ({ state, descriptors, navigation }: BottomTabBarProps) => {
           />
         );
       })}
-    </XStack>
+    </ContainerX>
   );
 };

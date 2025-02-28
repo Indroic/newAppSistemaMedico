@@ -1,6 +1,6 @@
 import React from "react";
 import { H2, Image, ScrollView, Spinner, Stack, YStack } from "tamagui";
-import { Container } from "@/components/bases/layouts";
+import { Container, StackContainer } from "@/components/bases/layouts";
 import { FlashList } from "@shopify/flash-list";
 import MedicDataListItem from "@/components/infoComponents/medicos/MedicDataListItem";
 import { Medico } from "@/types";
@@ -39,7 +39,7 @@ export default function Medicos() {
     const result = ld
       .chain(items)
       .filter((item) => {
-        const nombre = item.nombre.toLowerCase();
+        const nombre = item.nombre.toLowerCase().replace(/\s+/g, "");
         const especialidad = item.especialidad.especialidad.toLowerCase();
         const fecha = item.create_at.split("T")[0].toLowerCase();
 
@@ -57,14 +57,6 @@ export default function Medicos() {
     setLoading(false);
     return;
   };
-  React.useEffect(() => {
-    const loadItems = async () => {
-      setItems(medicos);
-    }
-
-    loadItems().finally(() => setLoading(false));
-  }, [medicos]);
-
   React.useMemo(() => {
     const loadItems = async () => {
       setItems(medicos);
@@ -79,7 +71,7 @@ export default function Medicos() {
       paddingTop={"$4"}
       paddingHorizontal={"$4"}
     >
-      <Stack flex={1} width={"100%"} height={"100%"}>
+      <StackContainer flex={1} width={"100%"} height={"100%"}>
         <FlashList
           data={items}
           estimatedItemSize={100}
@@ -96,7 +88,7 @@ export default function Medicos() {
           }
           ListEmptyComponent={<H2>No hay nada aqui...</H2>}
         />
-      </Stack>
+      </StackContainer>
 
       <DialogInstance
         title="Opciones de Médicos"

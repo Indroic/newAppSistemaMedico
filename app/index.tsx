@@ -1,11 +1,10 @@
 import React from "react";
-import { H1, Text, Button, Form, YStack, H4, Image, H2 } from "tamagui";
-import { Container } from "@/components/bases/layouts";
+import { H1, Text, Form, H4, Image, H2 } from "tamagui";
+import { Container, ContainerX, ContainerY } from "@/components/bases/layouts";
 import Input from "@/components/bases/Input";
 import { Link, router } from "expo-router";
 import { useFonts } from "expo-font";
 
-import * as FileSystem from "expo-file-system";
 import {
   useExamenesStore,
   useGeneroStore,
@@ -13,7 +12,6 @@ import {
   useMicelaneusStore,
 } from "@/stores";
 
-import * as Network from "expo-network";
 import * as SplashScreen from "expo-splash-screen";
 import CustomButton from "@/components/bases/CustomButton";
 
@@ -77,7 +75,7 @@ export default function MedicosScreen() {
   React.useMemo(() => {
     const downloadAvatarPlaceholder = () => {
       setAvatarPlaceholder(
-        "https://vftuulahhklxpmhzxemz.supabase.co/storage/v1/object/public/storage-medics/avatar-placeholder.png"
+        "https://avatar.iran.liara.run/public"
       );
 
       return true;
@@ -152,7 +150,7 @@ export default function MedicosScreen() {
         paddingHorizontal={"$4"}
         gap={30}
       >
-        <YStack gap={10}>
+        <ContainerY gap={10}>
           <Input
             label="Usuario"
             placeholder="Ingresa tu usuario"
@@ -192,7 +190,7 @@ export default function MedicosScreen() {
             }
             disabled={formik.isSubmitting}
           />
-        </YStack>
+        </ContainerY>
         <Form.Trigger>
           <CustomButton
             disabled={formik.isSubmitting}
@@ -200,8 +198,7 @@ export default function MedicosScreen() {
             text="Iniciar Sesion"
           />
         </Form.Trigger>
-        <YStack
-          width={"100%"}
+        <ContainerY
           gap={10}
           justifyContent="center"
           alignItems="center"
@@ -212,7 +209,7 @@ export default function MedicosScreen() {
               Registrese
             </H4>
           </Link>
-        </YStack>
+        </ContainerY>
       </Form>
     </Container>
   );

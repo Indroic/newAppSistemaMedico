@@ -1,11 +1,12 @@
 import React from "react";
-import { Button, XStack } from "tamagui";
+import { Button} from "tamagui";
 import Input from "./Input";
 import { Search } from "@tamagui/lucide-icons";
+import { ContainerX } from "./layouts";
 
 export const SearchInput = (props: { search: string; setSearch: (text: string) => void; searchItemsF: () => void }) => {
   return (
-    <XStack justifyContent="space-between" maxWidth={"100%"}>
+    <ContainerX justifyContent="space-between" maxWidth={"100%"}>
       <Input
         placeholder="Buscar..."
         value={props.search}
@@ -18,6 +19,6 @@ export const SearchInput = (props: { search: string; setSearch: (text: string) =
           props.searchItemsF();
         }}
       />
-    </XStack>
+    </ContainerX>
   );
 };

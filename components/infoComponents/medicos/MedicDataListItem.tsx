@@ -23,7 +23,7 @@ export default (props: { medic: Medico }) => {
       borderRadius={"$5"}
       marginVertical={"$2"}
     >
-      <MedicInfo medic={props.medic} avatarPlaceholder={"https://vftuulahhklxpmhzxemz.supabase.co/storage/v1/object/public/storage-medics/avatar-placeholder.png"} />
+      <MedicInfo medic={props.medic} avatarPlaceholder={"https://avatar.iran.liara.run/public"} />
       <DetailsMedicModal
         medic={props.medic}
         open={open}

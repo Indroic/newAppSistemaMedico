@@ -19,7 +19,7 @@ export default (props: { user: User }) => {
       <Text>{props.user.username}</Text>
       <Avatar circular>
         <Avatar.Image
-          src={props.user.avatar ? props.user.avatar :  "https://vftuulahhklxpmhzxemz.supabase.co/storage/v1/object/public/storage-medics/avatar-placeholder.png"}
+          src={props.user.avatar ? props.user.avatar :  "https://avatar.iran.liara.run/public"}
         />
       </Avatar>
       <Sheet

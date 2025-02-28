@@ -1,6 +1,6 @@
 import React from "react";
 import FormModal from "../bases/AddFormModal";
-import { Form, H3, YStack } from "tamagui";
+import { Form, H3 } from "tamagui";
 import Input from "../bases/Input";
 import CustomButton from "../bases/CustomButton";
 import { useAuthStore, useMedicosStore } from "@/stores";
@@ -10,6 +10,7 @@ import * as yup from "yup";
 
 import { addTension } from "@/axios";
 import { Tension } from "@/types";
+import { ContainerY } from "../bases/layouts";
 
 export default (props: { open: boolean; setOpen: (open: boolean) => void }) => {
   const { token, user } = useAuthStore();
@@ -59,7 +60,7 @@ export default (props: { open: boolean; setOpen: (open: boolean) => void }) => {
     <FormModal open={props.open} setOpen={props.setOpen} snapPoints={[40, 40]}>
       <H3>Agregar Nuevo Registro de Tensión</H3>
       <Form paddingHorizontal="$4">
-        <YStack gap={"$3"}>
+        <ContainerY gap={"$3"}>
           <Input
             label="Sistólica"
             placeholder="Ingrese su presión sistolica"
@@ -99,7 +100,7 @@ export default (props: { open: boolean; setOpen: (open: boolean) => void }) => {
             onPress={() => formik.handleSubmit()}
             disabled={formik.isSubmitting}
           />
-        </YStack>
+        </ContainerY>
       </Form>
     </FormModal>
   );

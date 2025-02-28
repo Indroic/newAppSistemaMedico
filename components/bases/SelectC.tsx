@@ -15,13 +15,11 @@ import {
   Label as LabelTamagui,
   Select as SelectTamagui,
   Sheet,
-  XStack,
-  YStack,
   getFontSize,
   createStyledContext,
-  styled,
-  withStaticProperties,
+  styled
 } from "tamagui";
+import { ContainerY } from "./layouts";
 
 interface ItemProps {
   value: string;
@@ -98,7 +96,7 @@ export const Label = styled(LabelTamagui, {
 
 export default (props: SelectProps) => {
   return (
-    <YStack>
+    <ContainerY>
       <Label isValid={props.isValid}>{props.label}</Label>
       <SelectTamagui
         value={props.value}
@@ -177,9 +175,9 @@ export default (props: SelectProps) => {
             width="100%"
             height="$3"
           >
-            <YStack zIndex={10}>
+            <ContainerY zIndex={10}>
               <ChevronUp size={20} />
-            </YStack>
+            </ContainerY>
           </SelectTamagui.ScrollUpButton>
 
           <SelectTamagui.Viewport>
@@ -209,7 +207,7 @@ export default (props: SelectProps) => {
             </SelectTamagui.Group>
             {/* Native gets an extra icon */}
             {props.native && (
-              <YStack
+              <ContainerY
                 position="absolute"
                 right={0}
                 top={0}
@@ -229,7 +227,7 @@ export default (props: SelectProps) => {
                       : "$color9"
                   }
                 />
-              </YStack>
+              </ContainerY>
             )}
           </SelectTamagui.Viewport>
 
@@ -240,9 +238,9 @@ export default (props: SelectProps) => {
             width="100%"
             height="$3"
           >
-            <YStack zIndex={10}>
+            <ContainerY zIndex={10}>
               <ChevronDown size={20} />
-            </YStack>
+            </ContainerY>
           </SelectTamagui.ScrollDownButton>
         </SelectTamagui.Content>
       </SelectTamagui>
@@ -251,6 +249,6 @@ export default (props: SelectProps) => {
           {props.errorMessage}
         </Label>
       ) : null}
-    </YStack>
+    </ContainerY>
   );
 };

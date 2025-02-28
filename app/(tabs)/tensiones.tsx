@@ -1,6 +1,6 @@
 import React from "react";
 import { H2, Spinner, Stack } from "tamagui";
-import { Container } from "@/components/bases/layouts";
+import { Container, StackContainer } from "@/components/bases/layouts";
 
 import { Tension } from "@/types";
 import { useAuthStore, useMedicosStore } from "@/stores";
@@ -44,7 +44,7 @@ export default function Tensiones() {
     return;
   };
 
-  React.useEffect(() => {
+  React.useMemo(() => {
     const loadItems = async () => {
       setItems(tensiones);
     };
@@ -64,7 +64,7 @@ export default function Tensiones() {
       paddingTop={"$4"}
       paddingHorizontal="$4"
     >
-      <Stack flex={1} width={"100%"} height={"100%"}>
+      <StackContainer flex={1} width={"100%"} height={"100%"}>
         <FlashList
           data={items}
           estimatedItemSize={100}
@@ -83,7 +83,7 @@ export default function Tensiones() {
             <H2>No hay nada aqui...</H2>
           }
         />
-      </Stack>
+      </StackContainer>
 
       <DialogInstance
         title="Opciones de Tensiones"

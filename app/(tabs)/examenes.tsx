@@ -1,6 +1,6 @@
 import React from "react";
 import { H2, Spinner, Stack} from "tamagui";
-import { Container } from "@/components/bases/layouts";
+import { Container, StackContainer } from "@/components/bases/layouts";
 
 import { Examen } from "@/types";
 import { useAuthStore, useExamenesStore } from "@/stores";
@@ -34,7 +34,7 @@ export default function Examenes() {
       return;
     }
     const result = items.filter((item) => {
-      const titulo = item.titulo.toLowerCase();
+      const titulo = item.titulo.toLowerCase().replace(/\s+/g, "");
       const categoria = item.categoria.categoria.toLowerCase();
       const fecha = item.create_at.split("T")[0].toLowerCase(); // suponiendo que la fecha es un string en formato YYYY-MM-DD
       return (
@@ -55,7 +55,7 @@ export default function Examenes() {
     }
   }, [search]);
 
-  React.useEffect(() => {
+  React.useMemo(() => {
     const loadItems = async () => {
       setItems(examenes);
     }
@@ -69,7 +69,7 @@ export default function Examenes() {
       paddingTop={"$4"}
       paddingHorizontal="$4"
     >
-      <Stack flex={1} width={"100%"} height={"100%"}>
+      <StackContainer flex={1} width={"100%"} height={"100%"}>
         <FlashList
           data={items}
           estimatedItemSize={100}
@@ -88,7 +88,7 @@ export default function Examenes() {
             <H2>No hay nada aqui...</H2>
           }
         />
-      </Stack>
+      </StackContainer>
 
       <DialogInstance
         title="Opciones de Exámenes"

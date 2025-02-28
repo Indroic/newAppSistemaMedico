@@ -4,13 +4,12 @@ import {
   styled,
   withStaticProperties,
   TextArea as InputTamagui,
-  YStack,
-  XStack,
   Label as LabelTamagui,
   Button,
 } from "tamagui";
 import { CircleCheck, CircleX, Eye, EyeOff } from "@tamagui/lucide-icons";
 import type { YStackProps } from "tamagui";
+import { ContainerX, ContainerY } from "./layouts";
 
 export interface InputProps extends YStackProps {
   isValid?: boolean;
@@ -85,7 +84,7 @@ const StyledLabel = styled(LabelTamagui, {
   },
 });
 
-const InputContainer = styled(XStack, {
+const InputContainer = styled(ContainerX, {
   justifyContent: "center",
   alignItems: "center",
   position: "relative",
@@ -108,7 +107,7 @@ const Label = withStaticProperties(StyledLabel, {
 export default (props: InputProps) => {
   const [isSecure, setIsSecure] = React.useState(props.isPassword);
   return (
-    <YStack {...props}>
+    <ContainerY {...props}>
       {props.label && (
         <Label
           htmlFor={props.id}
@@ -205,6 +204,6 @@ export default (props: InputProps) => {
           </Label>
         ) : null
       ) : null}
-    </YStack>
+    </ContainerY>
   );
 };

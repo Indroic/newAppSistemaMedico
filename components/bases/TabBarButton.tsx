@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Text, XStack, YStack } from "tamagui";
+import { Text } from "tamagui";
 import type { TabBarButtonProps } from "@/types";
+import { ContainerX, ContainerY } from "./layouts";
 
 const TabBarButton = (props: TabBarButtonProps) => {
   const { isFocused, label, routeName, tabBarIcon } = props;
@@ -9,7 +10,7 @@ const TabBarButton = (props: TabBarButtonProps) => {
   const color = isFocused ? "$accentColor" : "$color5";
 
   return (
-    <YStack
+    <ContainerY
       onPress={props.onPress}
       onLongPress={props.onLongPress}
       flex={1}
@@ -39,7 +40,7 @@ const TabBarButton = (props: TabBarButtonProps) => {
       <Text color={color} fontWeight={"bold"}>
         {routeName}
       </Text>
-    </YStack>
+    </ContainerY>
   );
 };
 

@@ -3,18 +3,18 @@ import React from "react";
 import {
   Button,
   Sheet,
-  XStack,
 } from "tamagui";
 
-import { Examen } from "@/types";
+
 
 
 import XButton from "@/components/bases/XButton";
+import { ContainerX } from "./layouts";
 
 
 export default (props: { open: boolean, setOpen: (open: boolean) => void, children: React.ReactNode[] }) => {
   return (
-    <XStack alignItems="center" gap={"$3"} position="absolute" left={0} zIndex={1000}>
+    <ContainerX alignItems="center" gap={"$3"} position="absolute" left={0} zIndex={1000}>
       <Button
         size={"$3"}
         icon={<Pencil />}
@@ -50,6 +50,6 @@ export default (props: { open: boolean, setOpen: (open: boolean) => void, childr
           </Sheet.ScrollView>
         </Sheet.Frame>
       </Sheet>
-    </XStack>
+    </ContainerX>
   );
 };

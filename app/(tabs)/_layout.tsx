@@ -14,6 +14,7 @@ import { getConsultas, getExamenes, getMedicos, getTensiones } from "@/axios";
 import { useAuthStore, useExamenesStore, useMedicosStore } from "@/stores";
 import { Spinner, Text, YStack } from "tamagui";
 import { Consulta, Examen, Medico, Tension } from "@/types";
+import { ContainerY } from "@/components/bases/layouts";
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
@@ -75,7 +76,7 @@ export default function TabLayout() {
 
   if (loading) {
     return (
-      <YStack
+      <ContainerY
         backgroundColor={"$background"}
         flex={1}
         justifyContent="center"
@@ -84,7 +85,7 @@ export default function TabLayout() {
       >
         <Spinner scale="$1" />
         <Text>Cargando...</Text>
-      </YStack>
+      </ContainerY>
     );
   }
 
